@@ -17,10 +17,46 @@
 
 }
 
+/* Sudoku grid borders etc */
 .sudoku-grid > div {
   width: 2em;
   height: 2em;
   border: 1px dashed black;
-  text-align: center;
-  vertical-align: middle;
+  /* text-align: center;
+  vertical-align: middle; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.sudoku-grid div:nth-child(3n) {
+  border-right: 2px solid black;
+}
+
+.sudoku-grid div:nth-child(9n-8) {
+  border-left: 2px solid black;
+}
+
+.sudoku-grid div:nth-child(-n+9) {
+  border-top: 2px solid black;
+}
+
+.sudoku-grid div:nth-child(27n),
+.sudoku-grid div:nth-child(27n-1),
+.sudoku-grid div:nth-child(27n-2),
+.sudoku-grid div:nth-child(27n-3),
+.sudoku-grid div:nth-child(27n-4),
+.sudoku-grid div:nth-child(27n-5),
+.sudoku-grid div:nth-child(27n-6),
+.sudoku-grid div:nth-child(27n-7),
+.sudoku-grid div:nth-child(27n-8) {
+  border-bottom: 2px solid black;
+}
+
+.sudoku-grid > div:hover {
+  font-weight: 700;
+}
+
+.selected {
+  background-color: khaki;
 }
