@@ -40,6 +40,7 @@ function SudokuGrid(props){
         })
         return
       }
+
       if(event.key === "ArrowLeft") {
         setSelectedCell(prevSelection => {
           if(prevSelection===null){
@@ -51,6 +52,7 @@ function SudokuGrid(props){
         })
         return
       }
+
       if(event.key === "ArrowUp") {
         setSelectedCell(prevSelection => {
           if(prevSelection===null){
@@ -65,6 +67,7 @@ function SudokuGrid(props){
         })
         return
       }
+
       if(event.key === "ArrowDown") {
         setSelectedCell(prevSelection => {
           if(prevSelection===null){
@@ -87,10 +90,9 @@ function SudokuGrid(props){
         setCell(number)
       }
       
-      
-      
-      
     }
+
+
 
     function setCell(value){
       if(!selectedCell){
@@ -100,10 +102,40 @@ function SudokuGrid(props){
         setGrid(prevGrid => {
           return prevGrid.map((item, index)=> index===selectedCell? value : item)
         })
+        
       }
     }
+    useEffect(()=>{
+      checkCell(selectedCell)
+    }, [grid])
 
-    
+    // Check if cell-value is legal
+    function checkCell(cellIndex){
+      const row=Math.floor(cellIndex / 9)
+      const col=cellIndex % 9
+      console.log(row, col)
+
+      // check row
+      for(let i = row*9;i < row*9+9; i++){
+        
+        if(grid[cellIndex]===grid[i] && cellIndex!==i){
+          
+          console.log("Value already exists on line!")
+          return
+        }
+      }
+      // Check column
+      for(let i = col;i < 72+col; i+=9){
+        
+        if(grid[cellIndex]===grid[i] && cellIndex!==i){
+          
+          console.log("Value already exists in column!")
+          return
+        }
+      }
+
+      // Check 
+    }
 
     const sudokuGridElements=grid.map( (cell, cellIndex) => {
         return (
