@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Sudoku from './Sudoku'
+import SudokuGrid from './SudokuGrid'
 import './App.css'
 
 
@@ -13,7 +13,7 @@ function App() {
       <h1>Sudoku!</h1>
       <div className="sudoku-container">
 
-      <Sudoku />
+      <SudokuGrid />
       </div>
       
     </div>
