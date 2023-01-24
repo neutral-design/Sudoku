@@ -14,6 +14,8 @@ const data=[
 
 function SudokuGrid(props){
     const [selectedCell, setSelectedCell] = useState(null)
+    const [illegalCells, setIllegalCells] = useState([])
+
     useEffect(()=>{
         console.log(selectedCell)
 
@@ -134,7 +136,12 @@ function SudokuGrid(props){
         }
       }
 
-      // Check 
+      // Check subgrid
+      const subGridX = Math.floor(col / 3)
+      const subGridY = Math.floor(row / 3)
+      console.log("Subgrid", subGridX, subGridY)
+      // for(let y = subGridY*27; y <subGridY*27 )
+      
     }
 
     const sudokuGridElements=grid.map( (cell, cellIndex) => {
