@@ -139,8 +139,15 @@ function SudokuGrid(props){
       // Check subgrid
       const subGridX = Math.floor(col / 3)
       const subGridY = Math.floor(row / 3)
-      console.log("Subgrid", subGridX, subGridY)
+      // console.log("Subgrid", subGridX, subGridY)
       // for(let y = subGridY*27; y <subGridY*27 )
+      const firstCellInSubgrid=subGridY*27+subGridX*3
+      // console.log("First cell in subgrid:", firstCellInSubgrid)
+      for(let x = subGridY*27+subGridX*3; x < subGridY*27+subGridX*3+3; x++){
+        for(let y = x; y < x+27; y+9){
+          console.log("Subgrid cells: ",x,y)
+        }
+      }
       
     }
 
