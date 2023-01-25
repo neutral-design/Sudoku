@@ -59,4 +59,9 @@
 
 .selected {
   background-color: khaki;
+  border: blue solid 1px;
+}
+
+.illegal {
+  background-color: red;
 }

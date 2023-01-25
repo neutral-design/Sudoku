@@ -18,6 +18,8 @@ function SudokuGrid(props){
 
     useEffect(()=>{
         console.log(selectedCell)
+        console.log(illegalCells.includes(selectedCell)? "illegal": "legal")
+        console.log(illegalCells)
 
     },[selectedCell])
 
@@ -88,6 +90,7 @@ function SudokuGrid(props){
       // Handle number inputs
       
       const number = Number(event.key)
+      console.log(selectedCell)
       if(!isNaN(number)){
         setCell(number)
       }
@@ -97,7 +100,7 @@ function SudokuGrid(props){
 
 
     function setCell(value){
-      if(!selectedCell){
+      if(selectedCell===null){
         return
       }
       else {
@@ -107,55 +110,71 @@ function SudokuGrid(props){
         
       }
     }
+
     useEffect(()=>{
-      checkCell(selectedCell)
+      const illegalArray=grid.map((item,index)=> {
+        return checkCell(index)
+      }).flat()
+      
+      setIllegalCells([...new Set(illegalArray)])
+      
     }, [grid])
+
 
     // Check if cell-value is legal
     function checkCell(cellIndex){
+      if(grid[cellIndex]===0){
+        return null
+      }
+      const returnArray=[]
       const row=Math.floor(cellIndex / 9)
       const col=cellIndex % 9
-      console.log(row, col)
+      // console.log(row, col)
 
       // check row
       for(let i = row*9;i < row*9+9; i++){
         
         if(grid[cellIndex]===grid[i] && cellIndex!==i){
-          
-          console.log("Value already exists on line!")
-          return
+
+          returnArray.push(i)
         }
       }
+      
       // Check column
-      for(let i = col;i < 72+col; i+=9){
+
+      for(let i = col; i <= (72+col); i+=9){
         
         if(grid[cellIndex]===grid[i] && cellIndex!==i){
-          
-          console.log("Value already exists in column!")
-          return
+
+          returnArray.push(i)
         }
       }
 
       // Check subgrid
       const subGridX = Math.floor(col / 3)
       const subGridY = Math.floor(row / 3)
-      // console.log("Subgrid", subGridX, subGridY)
-      // for(let y = subGridY*27; y <subGridY*27 )
-      const firstCellInSubgrid=subGridY*27+subGridX*3
-      // console.log("First cell in subgrid:", firstCellInSubgrid)
-      for(let x = subGridY*27+subGridX*3; x < subGridY*27+subGridX*3+3; x++){
-        for(let y = x; y < x+27; y+9){
-          console.log("Subgrid cells: ",x,y)
+      
+      for(let y = 0; y < 3; y++){
+        for(let x = 0; x < 3; x++){
+          const subGridIndex=subGridY*27+subGridX*3+y*9+x
+          
+          if(grid[subGridIndex]===grid[cellIndex] && cellIndex!==subGridIndex){
+            
+            returnArray.push(subGridIndex)
+          }
         }
       }
+      return returnArray
+      
       
     }
 
     const sudokuGridElements=grid.map( (cell, cellIndex) => {
+        const classes=(selectedCell===cellIndex ? "selected ":"")  + (illegalCells.includes(cellIndex) ? "illegal ":"")
         return (
           <div 
             
-            className={selectedCell===cellIndex ? "selected":""}
+            className={classes}
             onClick={handleChange}
             data-cell-index={cellIndex} 
           >
@@ -169,7 +188,7 @@ function SudokuGrid(props){
 
     return (
         <div 
-          tabindex="0"
+          tabIndex="0"
           onKeyDown={handleKeypress}
           className="sudoku-grid">{sudokuGridElements}
         </div>
