@@ -18,8 +18,8 @@ function SudokuGrid(props){
 
     useEffect(()=>{
         console.log(selectedCell)
-        console.log(illegalCells.includes(selectedCell)? "illegal": "legal")
-        console.log(illegalCells)
+
+        
 
     },[selectedCell])
 
@@ -33,6 +33,7 @@ function SudokuGrid(props){
 
     function handleKeypress(event) {
       // Handle Arrow keys
+      
       if(event.key === "ArrowRight") {
         setSelectedCell(prevSelection => {
           if(prevSelection===null){
@@ -90,10 +91,21 @@ function SudokuGrid(props){
       // Handle number inputs
       
       const number = Number(event.key)
-      console.log(selectedCell)
       if(!isNaN(number)){
         setCell(number)
+        return 
       }
+      
+      // Handle delete and backspace
+      if(event.key === "Backspace") {
+        setCell(0)
+        return 
+      }
+      if(event.key === "Delete") {
+        setCell(0)
+        return 
+      }
+
       
     }
 
@@ -108,10 +120,12 @@ function SudokuGrid(props){
           return prevGrid.map((item, index)=> index===selectedCell? value : item)
         })
         
+        
       }
     }
 
     useEffect(()=>{
+      // Check entire grid for illegal cells
       const illegalArray=grid.map((item,index)=> {
         return checkCell(index)
       }).flat()
