@@ -126,11 +126,13 @@ function SudokuGrid(props){
 
     useEffect(()=>{
       // Check entire grid for illegal cells
-      const illegalArray=grid.map((item,index)=> {
+      const illegalArray=[...new Set(grid.map((item,index)=> {
         return checkCell(index)
-      }).flat()
+      }).flat())]
       
-      setIllegalCells([...new Set(illegalArray)])
+      // setIllegalCells([...new Set(illegalArray)])
+      setIllegalCells(illegalArray)
+
       
     }, [grid])
 
@@ -177,6 +179,11 @@ function SudokuGrid(props){
             returnArray.push(subGridIndex)
           }
         }
+      }
+      
+      if(returnArray.length>0){
+        
+        returnArray.push(cellIndex)
       }
       return returnArray
       
