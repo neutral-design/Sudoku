@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react'
 
 const data=[
-    8,0,0,0,0,0,0,0,0,
-    0,0,0,4,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,
-    0,0,2,0,0,0,1,0,0,
-    0,0,0,0,6,0,0,0,0,
-    0,9,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,0,0,
-    0,1,0,0,0,6,0,0,0,
-    0,0,0,0,0,0,0,0,0,
+    [8,0,0,0,0,0,0,0,0,],
+    [0,0,0,4,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,],
+    [0,0,2,0,0,0,1,0,0,],
+    [0,0,0,0,6,0,0,0,0,],
+    [0,9,0,0,0,0,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,],
+    [0,1,0,0,0,6,0,0,0,],
+    [0,0,0,0,0,0,0,0,0,],
   ]
 
 function SudokuGrid(props){
-    const [selectedCell, setSelectedCell] = useState(null)
+    const [selectedCell, setSelectedCell] = useState({row: null, col: null})
     const [illegalCells, setIllegalCells] = useState([])
 
     useEffect(()=>{
-        console.log(selectedCell)
+        // console.log(selectedCell)
 
         
 
@@ -26,68 +26,38 @@ function SudokuGrid(props){
     const [grid, setGrid] = useState(data)
 
     function handleChange(event){
-        const selected = Number(event.target.dataset.cellIndex)
+        const selectedRow = Number(event.target.dataset.row)
+        const selectedCol = Number(event.target.dataset.col)
         
-        setSelectedCell(selected)
+        setSelectedCell({row: selectedRow, col: selectedCol})
     }
 
     function handleKeypress(event) {
       // Handle Arrow keys
-      
+      let rowIndex = selectedCell.row===null ? 0:selectedCell.row
+      let colIndex = selectedCell.col===null ? 0:selectedCell.col
       if(event.key === "ArrowRight") {
-        setSelectedCell(prevSelection => {
-          if(prevSelection===null){
-            return 0
-          } else if(prevSelection===80){
-            return 0
-          }
-          return prevSelection+1
-        })
-        return
+        colIndex++
       }
 
       if(event.key === "ArrowLeft") {
-        setSelectedCell(prevSelection => {
-          if(prevSelection===null){
-            return 0
-          } else if(prevSelection===0){
-            return 80
-          }
-          return prevSelection-1
-        })
-        return
+        colIndex--
       }
 
       if(event.key === "ArrowUp") {
-        setSelectedCell(prevSelection => {
-          if(prevSelection===null){
-            return 0
-          } else {
-            const newValue=prevSelection-9;
-            if(newValue<0){
-              return 81+newValue
-            }
-            return newValue
-          }
-        })
-        return
+        rowIndex--
       }
 
       if(event.key === "ArrowDown") {
-        setSelectedCell(prevSelection => {
-          if(prevSelection===null){
-            return 0
-          } else {
-            const newValue=prevSelection+9;
-            if(newValue>80){
-              return newValue-81
-            }
-            return newValue
-          }
-        })
-        return
+        rowIndex++
       }
       
+      colIndex = colIndex%9
+      colIndex= colIndex < 0 ? colIndex+9: colIndex
+      
+      rowIndex = rowIndex%9
+      rowIndex= rowIndex < 0 ? rowIndex+9: rowIndex
+      setSelectedCell({row: rowIndex, col: colIndex})
       // Handle number inputs
       
       const number = Number(event.key)
@@ -112,12 +82,15 @@ function SudokuGrid(props){
 
 
     function setCell(value){
-      if(selectedCell===null){
+      if(selectedCell.row===null || selectedCell.col===null){
         return
       }
       else {
         setGrid(prevGrid => {
-          return prevGrid.map((item, index)=> index===selectedCell? value : item)
+          
+          return prevGrid.map((row, rowIndex)=> {
+            return row.map((cell, colIndex)=> (selectedCell.row===rowIndex && selectedCell.col===colIndex)? value:cell)
+          })
         })
         
         
@@ -126,14 +99,14 @@ function SudokuGrid(props){
 
     useEffect(()=>{
       // Check entire grid for illegal cells
-      const illegalArray=[...new Set(grid.map((item,index)=> {
-        return checkCell(grid, index)
-      }).flat())]
+      // const illegalArray=[...new Set(grid.map((item,index)=> {
+      //   return checkCell(grid, index)
+      // }).flat())]
       
-      // setIllegalCells([...new Set(illegalArray)])
-      setIllegalCells(illegalArray)
+      // // setIllegalCells([...new Set(illegalArray)])
+      // setIllegalCells(illegalArray)
 
-      
+      // getIllegalCells()
     }, [grid])
 
 
@@ -188,6 +161,16 @@ function SudokuGrid(props){
       return returnArray
       
       
+    }
+
+    // Check entire grid for illegal cells
+
+    function getIllegalCells(grid){
+      grid.reduce((accumulator, currentValue, currentIndex) => {
+        console.log("Accumulator: ",accumulator)
+        console.log("CurrentValue: ",currentValue)
+        console.log("CurrentIndex: ",currentIndex)
+        })
     }
 
     // Check whether it will be legal
@@ -290,28 +273,51 @@ function SudokuGrid(props){
 
 
 
-    const sudokuGridElements=grid.map( (cell, cellIndex) => {
-        const classes=(selectedCell===cellIndex ? "selected ":"")  + (illegalCells.includes(cellIndex) ? "illegal ":"")
+    const sudokuGridElements=grid.map( (row, rowIndex) => {
+        // const classes=(selectedCell===cellIndex ? "selected ":"")  + (illegalCells.includes(cellIndex) ? "illegal ":"")
+        const cellElements = row.map((cell, colIndex)=> {
+        const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"")
+        // console.log(classes)
         return (
           <div 
             
             className={classes}
             onClick={handleChange}
-            data-cell-index={cellIndex} 
+            data-row={rowIndex} 
+            data-col={colIndex} 
           >
             {cell===0 ? "":cell}
           </div>
         )
         })
+        return cellElements
+      })
+
+    
         
       
 
 
     return (
-        <div 
-          tabIndex="0"
-          onKeyDown={handleKeypress}
-          className="sudoku-grid">{sudokuGridElements}
+        <div>
+          <div 
+            tabIndex="0"
+            onKeyDown={handleKeypress}
+            className="sudoku-grid">{sudokuGridElements}
+          </div>
+          <button
+            onClick={(event)=> {
+              const solvedGrid=JSON.parse(JSON.stringify(grid))
+              if(solveSudoku(solvedGrid, 0, 0)){
+                setGrid(solvedGrid)
+
+              }  
+              else {
+                console.log("no solution  exists ")
+              }
+                
+            }}  
+            >Solve!</button>
         </div>
     )
 
