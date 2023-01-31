@@ -182,7 +182,7 @@ function SudokuGrid(props){
                 if(!returnArray.includes(row*9+col)){
                   returnArray.push(row*9+col)
                 }
-                if(returnArray.includes(row*9+ i)){
+                if(!returnArray.includes(row*9+ i)){
                   returnArray.push(row*9+ i)
                 }
                 
@@ -215,17 +215,24 @@ function SudokuGrid(props){
             const xPos=x*3+i%3
             const yPos=y*3+Math.floor(i/3)
             console.log(xPos,yPos)
-          //   for(let j = i+1;j < 9; j++){
-          //     const jxPos=x*3+j%3
-          //     const jyPos=y*3+Math.floor(j/3)
-          //     if(grid[yPos][xPos]){
-          //       if(grid[yPos][xPos]===grid[jyPos][jxPos]){
-
-          //       }
-          //   }
-          // }
+            for(let j = i+1;j < 9; j++){
+              const jxPos=x*3+j%3
+              const jyPos=y*3+Math.floor(j/3)
+              if(grid[yPos][xPos]){
+                if(grid[yPos][xPos]===grid[jyPos][jxPos]){
+                    // Illegal cell
+                    if(!returnArray.includes(yPos*9+xPos)){
+                      returnArray.push(yPos*9+xPos)
+                    }
+                    if(!returnArray.includes(jyPos*9 + jxPos)){
+                      returnArray.push(jyPos*9 + jxPos)
+                    }
+                }
+            }
+          }
         }
       }
+    }
     
       console.log(returnArray)
       return returnArray;
