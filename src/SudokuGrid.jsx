@@ -109,61 +109,11 @@ function SudokuGrid(props){
       // setIllegalCells(illegalArray)
 
       setIllegalCells(getIllegalCells(grid))
+      
     }, [grid])
 
 
-    // Check if cell-value is legal
-    function checkCell(gridToCheck, cellIndex){
-      if(gridToCheck[cellIndex]===0){
-        return null
-      }
-      const returnArray=[]
-      const row=Math.floor(cellIndex / 9)
-      const col=cellIndex % 9
-      // console.log(row, col)
-
-      // check row
-      for(let i = row*9;i < row*9+9; i++){
-        
-        if(gridToCheck[cellIndex]===gridToCheck[i] && cellIndex!==i){
-
-          returnArray.push(i)
-        }
-      }
-      
-      // Check column
-
-      for(let i = col; i <= (72+col); i+=9){
-        
-        if(gridToCheck[cellIndex]===gridToCheck[i] && cellIndex!==i){
-
-          returnArray.push(i)
-        }
-      }
-
-      // Check subgrid
-      const subGridX = Math.floor(col / 3)
-      const subGridY = Math.floor(row / 3)
-      
-      for(let y = 0; y < 3; y++){
-        for(let x = 0; x < 3; x++){
-          const subGridIndex=subGridY*27+subGridX*3+y*9+x
-          
-          if(gridToCheck[subGridIndex]===gridToCheck[cellIndex] && cellIndex!==subGridIndex){
-            
-            returnArray.push(subGridIndex)
-          }
-        }
-      }
-      
-      if(returnArray.length>0){
-        
-        returnArray.push(cellIndex)
-      }
-      return returnArray
-      
-      
-    }
+  
 
     // Check entire grid for illegal cells
 
@@ -210,11 +160,11 @@ function SudokuGrid(props){
       // Check boxes
       for(let y = 0; y < 3; y++){
         for(let x = 0; x < 3; x++){
-          console.log("subgrid:")
+          
           for(let i = 0; i < 8; i++){
             const xPos=x*3+i%3
             const yPos=y*3+Math.floor(i/3)
-            console.log(xPos,yPos)
+            
             for(let j = i+1;j < 9; j++){
               const jxPos=x*3+j%3
               const jyPos=y*3+Math.floor(j/3)
@@ -234,7 +184,7 @@ function SudokuGrid(props){
       }
     }
     
-      console.log(returnArray)
+      
       return returnArray;
     }
 
@@ -281,7 +231,9 @@ function SudokuGrid(props){
         columns, and boxes) */
     function solveSudoku(grid, row, col)
     {
-        
+
+      
+
         /* If we have reached the 8th
           row and 9th column (0
           indexed matrix) ,
@@ -332,6 +284,7 @@ function SudokuGrid(props){
               assumption with diff num value   */
             grid[row][col] = 0;
         }
+        
         return false;
     }
 
@@ -372,13 +325,17 @@ function SudokuGrid(props){
           </div>
           <button
             onClick={(event)=> {
+              if(illegalCells.length>0){
+                console.log("Grid has illegal cells, can't solve")
+                return
+              }
               const solvedGrid=JSON.parse(JSON.stringify(grid))
               if(solveSudoku(solvedGrid, 0, 0)){
                 setGrid(solvedGrid)
 
               }  
               else {
-                console.log("no solution  exists ")
+                console.log("no solution exists")
               }
                 
             }}  
