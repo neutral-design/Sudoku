@@ -14,6 +14,7 @@ const data=[
 
 function SudokuGrid(props){
     const [selectedCell, setSelectedCell] = useState({row: null, col: null})
+    
     const [illegalCells, setIllegalCells] = useState([])
 
     useEffect(()=>{
@@ -57,6 +58,7 @@ function SudokuGrid(props){
       
       rowIndex = rowIndex%9
       rowIndex= rowIndex < 0 ? rowIndex+9: rowIndex
+
       setSelectedCell({row: rowIndex, col: colIndex})
       // Handle number inputs
       
@@ -106,7 +108,7 @@ function SudokuGrid(props){
       // // setIllegalCells([...new Set(illegalArray)])
       // setIllegalCells(illegalArray)
 
-      // getIllegalCells()
+      setIllegalCells(getIllegalCells(grid))
     }, [grid])
 
 
@@ -166,11 +168,67 @@ function SudokuGrid(props){
     // Check entire grid for illegal cells
 
     function getIllegalCells(grid){
-      grid.reduce((accumulator, currentValue, currentIndex) => {
-        console.log("Accumulator: ",accumulator)
-        console.log("CurrentValue: ",currentValue)
-        console.log("CurrentIndex: ",currentIndex)
-        })
+      const returnArray = []
+
+      // Check rows and columns
+      for(let row=0; row < 9; row++){
+        for(let col = 0; col < 8; col++){
+          for(let i = col+1; i < 9; i++){
+            if(grid[row][col]){
+              if(grid[row][col]===grid[row][i]){
+                // Illegal cell
+                
+                
+                if(!returnArray.includes(row*9+col)){
+                  returnArray.push(row*9+col)
+                }
+                if(returnArray.includes(row*9+ i)){
+                  returnArray.push(row*9+ i)
+                }
+                
+              }
+            }
+            if(grid[col][row]){
+              if(grid[col][row]===grid[i][row]){
+                // Illegal cell
+                
+                if(!returnArray.includes(col*9+row)){
+                  returnArray.push(col*9+row)
+                }
+                
+                if(!returnArray.includes(i*9+ row)){
+                  returnArray.push(i*9+ row)  
+                }
+                
+              }
+            }
+          }
+        }
+      
+      }
+
+      // Check boxes
+      for(let y = 0; y < 3; y++){
+        for(let x = 0; x < 3; x++){
+          console.log("subgrid:")
+          for(let i = 0; i < 8; i++){
+            const xPos=x*3+i%3
+            const yPos=y*3+Math.floor(i/3)
+            console.log(xPos,yPos)
+          //   for(let j = i+1;j < 9; j++){
+          //     const jxPos=x*3+j%3
+          //     const jyPos=y*3+Math.floor(j/3)
+          //     if(grid[yPos][xPos]){
+          //       if(grid[yPos][xPos]===grid[jyPos][jxPos]){
+
+          //       }
+          //   }
+          // }
+        }
+      }
+    
+      console.log(returnArray)
+      return returnArray;
     }
 
     // Check whether it will be legal
@@ -276,7 +334,7 @@ function SudokuGrid(props){
     const sudokuGridElements=grid.map( (row, rowIndex) => {
         // const classes=(selectedCell===cellIndex ? "selected ":"")  + (illegalCells.includes(cellIndex) ? "illegal ":"")
         const cellElements = row.map((cell, colIndex)=> {
-        const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"")
+        const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"") + (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"")
         // console.log(classes)
         return (
           <div 
