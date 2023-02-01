@@ -65,3 +65,16 @@
 .illegal {
   background-color: red;
 }
+
+.input-grid {
+  margin: 1em;
+}
+
+.input-grid-row {
+  display: flex;
+}
+
+.input-grid-item {
+  border: 1px solid black;
+  padding: 1em;
+}

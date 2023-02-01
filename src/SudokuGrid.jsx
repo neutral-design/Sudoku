@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import InputGrid from './InputGrid'
 
 const data=[
     [8,0,0,0,0,0,0,0,0,],
@@ -101,13 +102,6 @@ function SudokuGrid(props){
 
     useEffect(()=>{
       // Check entire grid for illegal cells
-      // const illegalArray=[...new Set(grid.map((item,index)=> {
-      //   return checkCell(grid, index)
-      // }).flat())]
-      
-      // // setIllegalCells([...new Set(illegalArray)])
-      // setIllegalCells(illegalArray)
-
       setIllegalCells(getIllegalCells(grid))
       
     }, [grid])
@@ -323,6 +317,9 @@ function SudokuGrid(props){
             onKeyDown={handleKeypress}
             className="sudoku-grid">{sudokuGridElements}
           </div>
+          
+          <InputGrid />
+
           <button
             onClick={(event)=> {
               if(illegalCells.length>0){
