@@ -282,7 +282,66 @@ function SudokuGrid(props){
         return false;
     }
 
+    function generateBoard(nrOfClues){
+      const newBoard=[
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+      ]
 
+      // Randomly fill three diagonal subgrids
+      const grid1=getRandomUniqueArray()
+      const grid2=getRandomUniqueArray()
+      const grid3=getRandomUniqueArray()
+      let i = 0
+      for(let y = 0; y < 3; y++){
+        for(let x = 0; x < 3; x++){
+          
+          newBoard[y][x]=grid1[i]
+          newBoard[y+3][x+3]=grid2[i]
+          newBoard[y+6][x+6]=grid3[i]
+          i++
+        }
+      }
+
+      solveSudoku(newBoard, 0, 3)
+      removeRandomCells(newBoard, 81-nrOfClues)
+      return newBoard
+    }
+
+    function removeRandomCells(grid, cellsToRemove){
+      for(let i = 0; i < cellsToRemove; i++){
+        let x = 0
+        let y = 0
+        do {
+          x = Math.floor(Math.random()*9)
+          y = Math.floor(Math.random()*9)
+        } while(grid[y][x]===0)
+        grid[y][x]=0
+      }
+      
+    }
+
+    function getRandomUniqueArray(){
+      
+      let randomNr
+      const array=[]
+      for(let i = 0; i < 9; i++){
+        do {
+          // Get random number
+          randomNr=Math.floor(Math.random()*9)+1
+        }while(array.includes(randomNr)) //Loop as long as 
+        array.push(randomNr)
+      }
+      return array
+
+    }
 
 
     const sudokuGridElements=grid.map( (row, rowIndex) => {
@@ -319,7 +378,26 @@ function SudokuGrid(props){
           </div>
           
           <InputGrid />
-
+          <button
+            onClick={(event)=>{
+              setGrid([
+                [0,0,0,0,0,0,0,0,0,],
+                [0,0,0,0,0,0,0,0,0,],
+                [0,0,0,0,0,0,0,0,0,],
+                [0,0,0,0,0,0,0,0,0,],
+                [0,0,0,0,0,0,0,0,0,],
+                [0,0,0,0,0,0,0,0,0,],
+                [0,0,0,0,0,0,0,0,0,],
+                [0,0,0,0,0,0,0,0,0,],
+                [0,0,0,0,0,0,0,0,0,],
+              ])
+            }}
+          >Clear board!</button>
+          <button
+            onClick={(event)=> {
+              setGrid(generateBoard(25))
+            }}
+          >New board!</button>
           <button
             onClick={(event)=> {
               if(illegalCells.length>0){
