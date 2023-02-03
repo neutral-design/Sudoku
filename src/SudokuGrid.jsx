@@ -377,8 +377,9 @@ function SudokuGrid(props){
             className="sudoku-grid">{sudokuGridElements}
           </div>
           
-          <InputGrid />
-          <button
+          <InputGrid setCell={setCell}/>
+          <div className='button-container'>
+            <button
             onClick={(event)=>{
               setGrid([
                 [0,0,0,0,0,0,0,0,0,],
@@ -415,6 +416,8 @@ function SudokuGrid(props){
                 
             }}  
             >Solve!</button>
+          </div>
+          
         </div>
     )
 

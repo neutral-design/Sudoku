@@ -1,3 +1,18 @@
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
 .App {
   /* width: 100%; */
   display: block;
@@ -5,11 +20,13 @@
 
 .sudoku-container {
   
-  /* display: block; */
+  display: flex;
   margin: 0 auto;
-  width: 18em;
+  width: 100%;
 }
 .sudoku-grid {
+  width: 100vw;
+  height: 100vw;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   /* grid-template-rows: repeat(9, 1fr); */
@@ -19,11 +36,11 @@
 
 /* Sudoku grid borders etc */
 .sudoku-grid > div {
-  width: 2em;
-  height: 2em;
+  width: calc(100vw / 9);
+  height: calc(100vw / 9);
+  font-size: calc(100vw / 18);
   border: 1px dashed black;
-  /* text-align: center;
-  vertical-align: middle; */
+  
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,4 +94,9 @@
 .input-grid-item {
   border: 1px solid black;
   padding: 1em;
+  cursor: pointer;
+}
+
+.input-grid-item:hover {
+  transform: scale(1.1);
 }

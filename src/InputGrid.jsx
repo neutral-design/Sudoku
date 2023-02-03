@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react'
 
 function InputGrid(props){
     
+    function handleChange(event){
+        
+        const selectedNumber = Number(event.target.dataset.value)
+        
+        props.setCell(selectedNumber)
+    }
+
     const inputValues=[
         [1,2,3],
         [4,5,6],
@@ -11,14 +18,25 @@ function InputGrid(props){
     const inputElements = inputValues.map(row => {
         return (
             <div className='input-grid-row'>{row.map(item=> {
-                return <div className="input-grid-item">{item}</div>
+                return (
+                    <div 
+                    className="input-grid-item"
+                    onClick={handleChange}
+                    data-value={item} 
+                     >
+                        {item}
+                    </div>
+                )
             })}</div>
         )
         
     })
 
     return (
-        <div className='input-grid'>
+        <div 
+        className='input-grid'
+        
+        >
             {inputElements}
         </div>
     )
