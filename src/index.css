@@ -79,10 +79,17 @@ header {
   font-weight: 700;
 }
 
+
+
 .selected {
   background-color: khaki;
   border: blue solid 1px;
 }
+.locked {
+  background-color: lightgray;
+}
+
+
 
 .illegal {
   background-color: red;
@@ -132,3 +139,4 @@ header {
   align-items: stretch;
   /* margin: 1em; */
 }
+

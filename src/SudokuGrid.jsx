@@ -7,7 +7,21 @@ function SudokuGrid(props){
     const [selectedCell, setSelectedCell] = useState({row: null, col: null})
     const [illegalCells, setIllegalCells] = useState([])
     const [grid, setGrid] = useState(generateBoard(25))
+    const [lockedCells, setLockedCells] = useState(generateLockedCells(grid))
+    const [newGame, setNewGame] = useState(false)
 
+
+      
+
+    useEffect(()=> {
+      if(newGame){
+        const newGrid=generateBoard(25)
+        setGrid(newGrid)
+        setLockedCells(generateLockedCells(newGrid))
+        setNewGame(false)
+      }
+    }, [newGame])
+    
     function handleChange(event){
         const selectedRow = Number(event.target.dataset.row)
         const selectedCol = Number(event.target.dataset.col)
@@ -69,7 +83,9 @@ function SudokuGrid(props){
       if(selectedCell.row===null || selectedCell.col===null){
         return
       }
-      else {
+      else if(lockedCells[selectedCell.row][selectedCell.col]){
+        return
+      }else {
         setGrid(prevGrid => {
           
           return prevGrid.map((row, rowIndex)=> {
@@ -326,25 +342,31 @@ function SudokuGrid(props){
 
     }
 
-    function clearBoard(){
-      setGrid([
-        [0,0,0,0,0,0,0,0,0,],
-        [0,0,0,0,0,0,0,0,0,],
-        [0,0,0,0,0,0,0,0,0,],
-        [0,0,0,0,0,0,0,0,0,],
-        [0,0,0,0,0,0,0,0,0,],
-        [0,0,0,0,0,0,0,0,0,],
-        [0,0,0,0,0,0,0,0,0,],
-        [0,0,0,0,0,0,0,0,0,],
-        [0,0,0,0,0,0,0,0,0,],
-      ])
+    function generateLockedCells(grid){
+      return grid.map((row, rowIndex) => {        
+        const cellElements = row.map((cell, colIndex)=> {
+          return cell>0? true:false
+        })
+        return cellElements
+      }
+      )
+    }
+    function restartBoard(){
+      setGrid(prevGrid => {
+          
+        return prevGrid.map((row, rowIndex)=> {
+          return row.map((cell, colIndex)=> (lockedCells[rowIndex][colIndex])? cell:0)
+        })
+      })
     }
 
 
     const sudokuGridElements=grid.map( (row, rowIndex) => {
         
         const cellElements = row.map((cell, colIndex)=> {
-        const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"") + (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"")
+        const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"") + 
+                      (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"") +
+                      (lockedCells[rowIndex][colIndex]?"locked ":"")
         
         return (
           <div 
@@ -379,12 +401,13 @@ function SudokuGrid(props){
               <div className='button-container'>
                 <button
                 onClick={(event)=>{
-                  clearBoard()
+                  restartBoard()
                 }}
-              >Clear board</button>
+              >Restart</button>
               <button
                 onClick={(event)=> {
-                  setGrid(generateBoard(25))
+                  setNewGame(true)
+                  
                 }}
               >New board</button>
               <button
