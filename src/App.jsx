@@ -10,10 +10,12 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Sudoku!</h1>
+      <header>Classic Sudoku</header>
+      
       <div className="sudoku-container">
 
       <SudokuGrid />
+      
       </div>
       
     </div>

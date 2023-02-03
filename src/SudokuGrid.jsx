@@ -1,31 +1,12 @@
 import { useEffect, useState } from 'react'
 import InputGrid from './InputGrid'
 
-const data=[
-    [8,0,0,0,0,0,0,0,0,],
-    [0,0,0,4,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,2,0,0,0,1,0,0,],
-    [0,0,0,0,6,0,0,0,0,],
-    [0,9,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,1,0,0,0,6,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-  ]
+
 
 function SudokuGrid(props){
     const [selectedCell, setSelectedCell] = useState({row: null, col: null})
-    
     const [illegalCells, setIllegalCells] = useState([])
-
-    useEffect(()=>{
-        // console.log(selectedCell)
-
-        
-
-    },[selectedCell])
-
-    const [grid, setGrid] = useState(data)
+    const [grid, setGrid] = useState(generateBoard(25))
 
     function handleChange(event){
         const selectedRow = Number(event.target.dataset.row)
@@ -216,7 +197,7 @@ function SudokuGrid(props){
         return true;
     }
 
-    let N = 9;
+    
  
     /* Takes a partially filled-in grid and attempts
         to assign values to all unassigned locations in
@@ -225,7 +206,7 @@ function SudokuGrid(props){
         columns, and boxes) */
     function solveSudoku(grid, row, col)
     {
-
+      let N = 9;
       
 
         /* If we have reached the 8th
@@ -309,8 +290,9 @@ function SudokuGrid(props){
           i++
         }
       }
-
+      // Solve board to fill entire grid
       solveSudoku(newBoard, 0, 3)
+      // Remove random cells
       removeRandomCells(newBoard, 81-nrOfClues)
       return newBoard
     }
@@ -331,24 +313,39 @@ function SudokuGrid(props){
     function getRandomUniqueArray(){
       
       let randomNr
+      
       const array=[]
       for(let i = 0; i < 9; i++){
         do {
           // Get random number
           randomNr=Math.floor(Math.random()*9)+1
-        }while(array.includes(randomNr)) //Loop as long as 
+        }while(array.includes(randomNr)) //Loop until a new value is generated
         array.push(randomNr)
       }
       return array
 
     }
 
+    function clearBoard(){
+      setGrid([
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+        [0,0,0,0,0,0,0,0,0,],
+      ])
+    }
+
 
     const sudokuGridElements=grid.map( (row, rowIndex) => {
-        // const classes=(selectedCell===cellIndex ? "selected ":"")  + (illegalCells.includes(cellIndex) ? "illegal ":"")
+        
         const cellElements = row.map((cell, colIndex)=> {
         const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"") + (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"")
-        // console.log(classes)
+        
         return (
           <div 
             
@@ -370,55 +367,53 @@ function SudokuGrid(props){
 
 
     return (
-        <div>
+      <div>
           <div 
             tabIndex="0"
             onKeyDown={handleKeypress}
             className="sudoku-grid">{sudokuGridElements}
           </div>
           
-          <InputGrid setCell={setCell}/>
-          <div className='button-container'>
-            <button
-            onClick={(event)=>{
-              setGrid([
-                [0,0,0,0,0,0,0,0,0,],
-                [0,0,0,0,0,0,0,0,0,],
-                [0,0,0,0,0,0,0,0,0,],
-                [0,0,0,0,0,0,0,0,0,],
-                [0,0,0,0,0,0,0,0,0,],
-                [0,0,0,0,0,0,0,0,0,],
-                [0,0,0,0,0,0,0,0,0,],
-                [0,0,0,0,0,0,0,0,0,],
-                [0,0,0,0,0,0,0,0,0,],
-              ])
-            }}
-          >Clear board!</button>
-          <button
-            onClick={(event)=> {
-              setGrid(generateBoard(25))
-            }}
-          >New board!</button>
-          <button
-            onClick={(event)=> {
-              if(illegalCells.length>0){
-                console.log("Grid has illegal cells, can't solve")
-                return
-              }
-              const solvedGrid=JSON.parse(JSON.stringify(grid))
-              if(solveSudoku(solvedGrid, 0, 0)){
-                setGrid(solvedGrid)
-
-              }  
-              else {
-                console.log("no solution exists")
-              }
-                
-            }}  
-            >Solve!</button>
-          </div>
           
+          <div className="input-container">
+              <div className='button-container'>
+                <button
+                onClick={(event)=>{
+                  clearBoard()
+                }}
+              >Clear board</button>
+              <button
+                onClick={(event)=> {
+                  setGrid(generateBoard(25))
+                }}
+              >New board</button>
+              <button
+                onClick={(event)=> {
+                  if(illegalCells.length>0){
+                    console.log("Grid has illegal cells, can't solve")
+                    return
+                  }
+                  // Use JSON.parse / JSON.stringify to create a deep copy of the grid
+                  const solvedGrid=JSON.parse(JSON.stringify(grid))
+                  // Try solving the grid
+                  if(solveSudoku(solvedGrid, 0, 0)){
+                    setGrid(solvedGrid)
+
+                  }  
+                  else {
+                    console.log("no solution exists")
+                  }
+                    
+                }}  
+                >Solve</button>
+              </div>
+              <InputGrid setCell={setCell}/>
         </div>
+              
+              
+              
+      </div>
+          
     )
 
 }

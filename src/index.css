@@ -11,8 +11,13 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
+  color: #023047;
 }
 
+header {
+  background-color: #8ECAE6;
+  font-weight: 700;
+}
 .App {
   /* width: 100%; */
   display: block;
@@ -84,7 +89,7 @@ body {
 }
 
 .input-grid {
-  margin: 1em;
+  /* margin: 1em; */
 }
 
 .input-grid-row {
@@ -95,8 +100,35 @@ body {
   border: 1px solid black;
   padding: 1em;
   cursor: pointer;
+  width: calc(100vw / 9);
+  height: calc(100vw / 9);
 }
 
 .input-grid-item:hover {
   transform: scale(1.1);
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container > button {
+  /* margin: .5em; */
+  border: 1px solid #023047;
+  padding: .5em;
+  background-color: #8ECAE6;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.input-container {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: stretch;
+  /* margin: 1em; */
 }
