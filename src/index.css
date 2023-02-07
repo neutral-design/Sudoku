@@ -107,8 +107,9 @@ header {
   border: 1px solid black;
   padding: 1em;
   cursor: pointer;
-  width: calc(100vw / 9);
-  height: calc(100vw / 9);
+  width: calc(100vw / 7);
+  height: calc(100vw / 7);
+  font-size: 1em;
 }
 
 .input-grid-item:hover {
@@ -138,5 +139,7 @@ header {
   /* justify-content: space-between; */
   align-items: stretch;
   /* margin: 1em; */
+  background-color: gray;
+  min-height: 90vw;
 }
 
