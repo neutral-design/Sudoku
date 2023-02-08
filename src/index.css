@@ -105,11 +105,17 @@ header {
 
 .input-grid-item {
   border: 1px solid black;
-  padding: 1em;
+  /* padding: 1em; */
   cursor: pointer;
-  width: calc(100vw / 7);
-  height: calc(100vw / 7);
-  font-size: 1em;
+  width: calc(50vw / 3);
+  height: calc(50vw / 3);
+  font-size: 1.5rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #8ECAE6;;
 }
 
 .input-grid-item:hover {
@@ -136,7 +142,7 @@ header {
 
 .input-container {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   align-items: stretch;
   /* margin: 1em; */
   background-color: gray;

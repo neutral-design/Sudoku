@@ -431,7 +431,8 @@ function SudokuGrid(props){
                 >Solve</button>
               </div>
               <InputGrid setCell={setCell}/>
-        </div>
+              
+          </div>
               
               
               
