@@ -8,9 +8,25 @@ function SudokuGrid(props){
     const [illegalCells, setIllegalCells] = useState([])
     const [grid, setGrid] = useState(generateBoard(25))
     const [lockedCells, setLockedCells] = useState(generateLockedCells(grid))
+    const [unsureGrid, setUnsureGrid] = useState(
+      [
+        [[],[],[],[],[],[],[],[],[]],
+        [[],[],[],[],[],[],[],[],[]],
+        [[],[],[],[],[],[],[],[],[]],
+        [[],[],[],[],[],[],[],[],[]],
+        [[],[],[],[],[],[],[],[],[]],
+        [[],[],[],[],[],[],[],[],[]],
+        [[],[],[],[],[],[],[],[],[]],
+        [[],[],[],[],[],[],[],[],[]],
+        [[],[],[],[],[],[],[],[],[]],
+      ])
+    
+    const [unsure, setUnsure] = useState(false)
     const [newGame, setNewGame] = useState(false)
 
-
+    useEffect(()=> {
+      console.log(unsureGrid)
+    }, [unsureGrid])
       
 
     useEffect(()=> {
@@ -84,6 +100,25 @@ function SudokuGrid(props){
         return
       }
       else if(lockedCells[selectedCell.row][selectedCell.col]){
+        return
+      }
+      else if (unsure){
+        // Entering candidate
+        console.log("Setting candidate!")
+        setUnsureGrid(prevGrid => {
+          return prevGrid.map((row, rowIndex)=> {
+            return row.map((cell, colIndex)=> {
+              if(selectedCell.row===rowIndex && selectedCell.col===colIndex){
+                // Fount the right cell
+                return cell.map(value=>{
+                  
+                })
+                
+              }
+              
+            })
+          })
+        })
         return
       }else {
         setGrid(prevGrid => {
@@ -364,10 +399,14 @@ function SudokuGrid(props){
     const sudokuGridElements=grid.map( (row, rowIndex) => {
         
         const cellElements = row.map((cell, colIndex)=> {
+          
+        const unsureElement = unsureGrid[rowIndex][colIndex].length>0 ? unsureGrid[rowIndex][colIndex]:""
         const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"") + 
                       (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"") +
-                      (lockedCells[rowIndex][colIndex]?"locked ":"")
-        
+                      (lockedCells[rowIndex][colIndex]?"locked ":"") +
+                      (unsureGrid[rowIndex][colIndex].length>0 ? "unsure ":"")
+          
+                      
         return (
           <div 
             
@@ -376,7 +415,7 @@ function SudokuGrid(props){
             data-row={rowIndex} 
             data-col={colIndex} 
           >
-            {cell===0 ? "":cell}
+            {cell===0 ? unsureElement:cell}
           </div>
         )
         })
@@ -429,6 +468,12 @@ function SudokuGrid(props){
                     
                 }}  
                 >Solve</button>
+                <button
+                onClick={(event)=> {
+                  setUnsure(prevValue => !prevValue)
+                    
+                }}  
+                >{unsure? "Input candidates":"Normal input"}</button>
               </div>
               <InputGrid setCell={setCell}/>
               
