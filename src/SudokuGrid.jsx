@@ -25,7 +25,7 @@ function SudokuGrid(props){
     const [newGame, setNewGame] = useState(false)
 
     useEffect(()=> {
-      console.log(unsureGrid)
+      // console.log(unsureGrid)
     }, [unsureGrid])
       
 
@@ -104,7 +104,7 @@ function SudokuGrid(props){
       }
       else if (unsure){
         // Entering candidate
-        console.log("Setting candidate!")
+        
         
         setUnsureGrid(prevGrid => {
           return prevGrid.map((row, rowIndex)=> {
@@ -112,24 +112,13 @@ function SudokuGrid(props){
               if(selectedCell.row===rowIndex && selectedCell.col===colIndex){
                 // Found the right cell
                 
+                const newArray=[...cell]
                 if(cell.includes(value)){
-                  const index = cell.indexOf(value);
-                  if(index > -1) { // only splice array when item is found
-                    
-                    cell.splice(index, 1) // 2nd parameter means remove one item only
-                    
-                    console.log(`RowIndex ${rowIndex} ColIndex ${colIndex} Removed: ${value}`)
-                    
-                  }
-                  return cell
+                  newArray.splice(newArray.indexOf(value), 1) // 2nd parameter means remove one item only                                      
+                  return newArray
+                } else {
+                  return [...cell, value].sort()
                 }
-                else {
-                  
-                  
-                  console.log(`RowIndex ${rowIndex} ColIndex ${colIndex} Added: ${value}`)
-                  return [...cell, value]
-                }
-                
               }
               return cell
               

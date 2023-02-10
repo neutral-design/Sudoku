@@ -96,6 +96,8 @@ header {
 
 .sudoku-grid > div.unsure {
   font-size: calc(100vw / 18 * .65);
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
   /* background-color: aqua; */
 }
 
