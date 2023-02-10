@@ -90,9 +90,13 @@ header {
 }
 
 
-
 .illegal {
   background-color: red;
+}
+
+.sudoku-grid > div.unsure {
+  font-size: calc(100vw / 18 * .65);
+  /* background-color: aqua; */
 }
 
 .input-grid {

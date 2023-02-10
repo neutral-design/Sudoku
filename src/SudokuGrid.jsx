@@ -6,7 +6,7 @@ import InputGrid from './InputGrid'
 function SudokuGrid(props){
     const [selectedCell, setSelectedCell] = useState({row: null, col: null})
     const [illegalCells, setIllegalCells] = useState([])
-    const [grid, setGrid] = useState(generateBoard(25))
+    const [grid, setGrid] = useState(generateBoard(30))
     const [lockedCells, setLockedCells] = useState(generateLockedCells(grid))
     const [unsureGrid, setUnsureGrid] = useState(
       [
@@ -31,7 +31,7 @@ function SudokuGrid(props){
 
     useEffect(()=> {
       if(newGame){
-        const newGrid=generateBoard(25)
+        const newGrid=generateBoard(30)
         setGrid(newGrid)
         setLockedCells(generateLockedCells(newGrid))
         setNewGame(false)
@@ -105,16 +105,33 @@ function SudokuGrid(props){
       else if (unsure){
         // Entering candidate
         console.log("Setting candidate!")
+        
         setUnsureGrid(prevGrid => {
           return prevGrid.map((row, rowIndex)=> {
             return row.map((cell, colIndex)=> {
               if(selectedCell.row===rowIndex && selectedCell.col===colIndex){
-                // Fount the right cell
-                return cell.map(value=>{
+                // Found the right cell
+                
+                if(cell.includes(value)){
+                  const index = cell.indexOf(value);
+                  if(index > -1) { // only splice array when item is found
+                    
+                    cell.splice(index, 1) // 2nd parameter means remove one item only
+                    
+                    console.log(`RowIndex ${rowIndex} ColIndex ${colIndex} Removed: ${value}`)
+                    
+                  }
+                  return cell
+                }
+                else {
                   
-                })
+                  
+                  console.log(`RowIndex ${rowIndex} ColIndex ${colIndex} Added: ${value}`)
+                  return [...cell, value]
+                }
                 
               }
+              return cell
               
             })
           })
@@ -400,11 +417,13 @@ function SudokuGrid(props){
         
         const cellElements = row.map((cell, colIndex)=> {
           
-        const unsureElement = unsureGrid[rowIndex][colIndex].length>0 ? unsureGrid[rowIndex][colIndex]:""
+        // const unsureElement = unsureGrid[rowIndex][colIndex].length>0 ? unsureGrid[rowIndex][colIndex]:""
+        const unsureElement = unsureGrid[rowIndex][colIndex]
+        // console.log(unsureElement)
         const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"") + 
                       (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"") +
                       (lockedCells[rowIndex][colIndex]?"locked ":"") +
-                      (unsureGrid[rowIndex][colIndex].length>0 ? "unsure ":"")
+                      (unsureElement.length>0 ? "unsure ":"")
           
                       
         return (
