@@ -51,32 +51,80 @@ header {
   align-items: center;
   cursor: pointer;
 }
-.sudoku-grid div:nth-child(3n) {
+.sudoku-grid > div:nth-child(3n) {
   border-right: 2px solid black;
 }
 
-.sudoku-grid div:nth-child(9n-8) {
+.sudoku-grid > div:nth-child(9n-8) {
   border-left: 2px solid black;
 }
 
-.sudoku-grid div:nth-child(-n+9) {
+.sudoku-grid > div:nth-child(-n+9) {
   border-top: 2px solid black;
 }
 
-.sudoku-grid div:nth-child(27n),
-.sudoku-grid div:nth-child(27n-1),
-.sudoku-grid div:nth-child(27n-2),
-.sudoku-grid div:nth-child(27n-3),
-.sudoku-grid div:nth-child(27n-4),
-.sudoku-grid div:nth-child(27n-5),
-.sudoku-grid div:nth-child(27n-6),
-.sudoku-grid div:nth-child(27n-7),
-.sudoku-grid div:nth-child(27n-8) {
+.sudoku-grid > div:nth-child(27n),
+.sudoku-grid > div:nth-child(27n-1),
+.sudoku-grid > div:nth-child(27n-2),
+.sudoku-grid > div:nth-child(27n-3),
+.sudoku-grid > div:nth-child(27n-4),
+.sudoku-grid > div:nth-child(27n-5),
+.sudoku-grid > div:nth-child(27n-6),
+.sudoku-grid > div:nth-child(27n-7),
+.sudoku-grid > div:nth-child(27n-8) {
   border-bottom: 2px solid black;
 }
 
 .sudoku-grid > div:hover {
   font-weight: 700;
+}
+
+.candidate-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  /* grid-template-columns: repeat(3, 1fr); */
+  grid-template:
+  "c1 c2 c3" 33%
+  "c4 c5 c6" 33%
+  "c7 c8 c9" 33%;
+  font-size: calc(100vw / 36);
+  
+}
+
+.candidate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.candidate-1 {
+  grid-area: c1;
+}
+.candidate-2 {
+  grid-area: c2;
+}
+.candidate-3 {
+  grid-area: c3;
+}
+.candidate-4 {
+  grid-area: c4;
+}
+.candidate-5 {
+  grid-area: c5;
+}
+.candidate-6 {
+  grid-area: c6;
+}
+.candidate-7 {
+  grid-area: c7;
+}
+.candidate-8 {
+  grid-area: c8;
+}
+.candidate-9 {
+  grid-area: c9;
 }
 
 

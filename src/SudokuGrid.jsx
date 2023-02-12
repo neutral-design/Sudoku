@@ -4,7 +4,9 @@ import InputGrid from './InputGrid'
 
 
 function SudokuGrid(props){
-    const [selectedCell, setSelectedCell] = useState({row: null, col: null})
+    
+    const [selectedCells, setSelectedCells] = useState([])
+    const [isSelecting, setIsSelecting] = useState(false)
     const [illegalCells, setIllegalCells] = useState([])
     const [grid, setGrid] = useState(generateBoard(30))
     const [lockedCells, setLockedCells] = useState(generateLockedCells(grid))
@@ -24,54 +26,159 @@ function SudokuGrid(props){
     const [unsure, setUnsure] = useState(false)
     const [newGame, setNewGame] = useState(false)
 
-    useEffect(()=> {
-      // console.log(unsureGrid)
-    }, [unsureGrid])
-      
+    
+    useEffect(()=>{
+      // console.log(selectedCells)
+    },[selectedCells])
+
+    useEffect(()=>{
+      if(isSelecting){
+        setSelectedCells([])
+      }
+    },[isSelecting])
 
     useEffect(()=> {
       if(newGame){
         const newGrid=generateBoard(30)
         setGrid(newGrid)
         setLockedCells(generateLockedCells(newGrid))
+        setSelectedCells([])
+        setUnsureGrid([
+          [[],[],[],[],[],[],[],[],[]],
+          [[],[],[],[],[],[],[],[],[]],
+          [[],[],[],[],[],[],[],[],[]],
+          [[],[],[],[],[],[],[],[],[]],
+          [[],[],[],[],[],[],[],[],[]],
+          [[],[],[],[],[],[],[],[],[]],
+          [[],[],[],[],[],[],[],[],[]],
+          [[],[],[],[],[],[],[],[],[]],
+          [[],[],[],[],[],[],[],[],[]],
+        ])
         setNewGame(false)
       }
     }, [newGame])
     
     function handleChange(event){
-        const selectedRow = Number(event.target.dataset.row)
-        const selectedCol = Number(event.target.dataset.col)
+      
+        const selectedRow = Number(event.currentTarget.dataset.row)
+        const selectedCol = Number(event.currentTarget.dataset.col)
         
-        setSelectedCell({row: selectedRow, col: selectedCol})
+        setSelectedCells([{row: selectedRow, col: selectedCol}])
     }
+
+    function handleMouseDown(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Mouse Down event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+
+    function handleMouseUp(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Mouse UP event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+
+    function handleMouseOver(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Mouse OVER event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+
+    // Touch event handlers
+    function handleTouchStart(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Touch START event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      setIsSelecting(true)
+    }
+
+    function handleTouchMove(event){
+      const selectedRow = Math.floor(event.touches[0].clientY/screen.width*9)
+      const selectedCol = Math.floor(event.touches[0].clientX/screen.width*9)
+
+      // console.log(event.touches[0].clientX)      
+      // console.log(event.touches[0].clientY)      
+      // console.log(`Touch MOVE event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      setSelectedCells(prevSelection => {
+        
+        const newSelection = prevSelection.filter
+        const result = prevSelection.filter(item => item.row===selectedRow && item.col===selectedCol);
+        if(result.length===0){
+          return [...prevSelection,{row: selectedRow, col: selectedCol}]
+        }
+        
+        return prevSelection
+      })
+    }
+
+    function handleTouchEnd(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      setIsSelecting(false)
+      // console.log(`Touch END event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+
+    function handleTouchCancel(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Touch CANCEL event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+    
+
+    // Pointer event handlers
+    function handlePointerDown(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Pointer DOWN event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+
+    function handlePointerOver(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Pointer OVER event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+
+    function handlePointerUp(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Pointer UP event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+
+    function handlePointerEnter(event){
+      const selectedRow = Number(event.currentTarget.dataset.row)
+      const selectedCol = Number(event.currentTarget.dataset.col)
+      console.log(`Pointer ENTER event in cell row: ${selectedRow}, col: ${selectedCol}`)
+    }
+
 
     function handleKeypress(event) {
       // Handle Arrow keys
-      let rowIndex = selectedCell.row===null ? 0:selectedCell.row
-      let colIndex = selectedCell.col===null ? 0:selectedCell.col
-      if(event.key === "ArrowRight") {
-        colIndex++
-      }
+      // let rowIndex = selectedCells.length===0 ? 0:selectedCells[0].row
+      // let colIndex = selectedCells.length===0 ? 0:selectedCells[0].col
+      // if(event.key === "ArrowRight") {
+      //   colIndex++
+      // }
 
-      if(event.key === "ArrowLeft") {
-        colIndex--
-      }
+      // if(event.key === "ArrowLeft") {
+      //   colIndex--
+      // }
 
-      if(event.key === "ArrowUp") {
-        rowIndex--
-      }
+      // if(event.key === "ArrowUp") {
+      //   rowIndex--
+      // }
 
-      if(event.key === "ArrowDown") {
-        rowIndex++
-      }
+      // if(event.key === "ArrowDown") {
+      //   rowIndex++
+      // }
       
-      colIndex = colIndex%9
-      colIndex= colIndex < 0 ? colIndex+9: colIndex
+      // colIndex = colIndex%9
+      // colIndex= colIndex < 0 ? colIndex+9: colIndex
       
-      rowIndex = rowIndex%9
-      rowIndex= rowIndex < 0 ? rowIndex+9: rowIndex
+      // rowIndex = rowIndex%9
+      // rowIndex= rowIndex < 0 ? rowIndex+9: rowIndex
 
-      setSelectedCell({row: rowIndex, col: colIndex})
+      // setSelectedCells([{row: rowIndex, col: colIndex}])
+
       // Handle number inputs
       
       const number = Number(event.key)
@@ -96,17 +203,27 @@ function SudokuGrid(props){
 
 
     function setCell(value){
-      if(selectedCell.row===null || selectedCell.col===null){
+      if(selectedCells.length===0){
         return
+      } 
+      else if(selectedCells.length===1){
+        if(lockedCells[selectedCells[0].row][selectedCells[0].col]){
+          return
+        }
+
+        setGrid(prevGrid => {
+          
+          return prevGrid.map((row, rowIndex)=> {
+            return row.map((cell, colIndex)=> (selectedCells[0].row===rowIndex && selectedCells[0].col===colIndex)? value:cell)
+          })
+        })
+        return 
       }
-      else if(lockedCells[selectedCell.row][selectedCell.col]){
-        return
-      }
-      else if (unsure){
-        // Entering candidate
-        
-        
-        setUnsureGrid(prevGrid => {
+      else if(selectedCells.length>1){
+        // Multiple cells selected, enter candidates
+
+        selectedCells.forEach(selectedCell => {
+          setUnsureGrid(prevGrid => {
           return prevGrid.map((row, rowIndex)=> {
             return row.map((cell, colIndex)=> {
               if(selectedCell.row===rowIndex && selectedCell.col===colIndex){
@@ -125,15 +242,8 @@ function SudokuGrid(props){
             })
           })
         })
-        return
-      }else {
-        setGrid(prevGrid => {
-          
-          return prevGrid.map((row, rowIndex)=> {
-            return row.map((cell, colIndex)=> (selectedCell.row===rowIndex && selectedCell.col===colIndex)? value:cell)
-          })
-        })
         
+        })
         
       }
     }
@@ -406,13 +516,25 @@ function SudokuGrid(props){
         
         const cellElements = row.map((cell, colIndex)=> {
           
-        // const unsureElement = unsureGrid[rowIndex][colIndex].length>0 ? unsureGrid[rowIndex][colIndex]:""
-        const unsureElement = unsureGrid[rowIndex][colIndex]
-        // console.log(unsureElement)
-        const classes=((selectedCell.row===rowIndex && selectedCell.col===colIndex) ? "selected ":"") + 
-                      (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"") +
-                      (lockedCells[rowIndex][colIndex]?"locked ":"") +
-                      (unsureElement.length>0 ? "unsure ":"")
+        
+        const unsureElement = unsureGrid[rowIndex][colIndex].map(candidate => {
+          return (
+            <div className={`candidate candidate-${candidate}`}>
+              {candidate}
+            </div>
+          )
+        })
+        const candidateDiv = (
+          <div className="candidate-container">
+            {unsureElement}
+          </div>
+        )
+        
+        const selected = selectedCells.filter(item => item.row===rowIndex && item.col===colIndex)
+        
+        const classes=(selected.length>0 ? "selected ":"") + 
+        (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"") +
+        (lockedCells[rowIndex][colIndex]?"locked ":"")                       
           
                       
         return (
@@ -420,10 +542,26 @@ function SudokuGrid(props){
             
             className={classes}
             onClick={handleChange}
+            // Mouse events
+            // onMouseDown={handleMouseDown}
+            // onMouseUp={handleMouseUp}
+            // onMouseOver={handleMouseOver}
+            // Touch events
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchCancel}
+
+            // Pointer events
+            // onPointerDown={handlePointerDown}
+            // onPointerOver={handlePointerOver}
+            // onPointerEnter={handlePointerEnter}
+            // onPointerUp={handlePointerUp}
+
             data-row={rowIndex} 
             data-col={colIndex} 
           >
-            {cell===0 ? unsureElement:cell}
+            {cell===0 ? candidateDiv:cell}
           </div>
         )
         })
