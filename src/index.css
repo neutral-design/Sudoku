@@ -202,7 +202,7 @@ header {
   align-items: stretch;
   /* margin: 1em; */
   background-color: gray;
-  min-height: 90vw;
+  /* min-height: 90vw; */
 
   position: relative;
   top: 100vw;
