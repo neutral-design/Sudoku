@@ -207,19 +207,45 @@ function SudokuGrid(props){
         return
       } 
       else if(selectedCells.length===1){
+        // Check if cell is locked
         if(lockedCells[selectedCells[0].row][selectedCells[0].col]){
           return
         }
 
-        setGrid(prevGrid => {
+        //Check that we're not in candidate input-mode
+        if(!unsure){
+          setGrid(prevGrid => {
           
-          return prevGrid.map((row, rowIndex)=> {
-            return row.map((cell, colIndex)=> (selectedCells[0].row===rowIndex && selectedCells[0].col===colIndex)? value:cell)
+            return prevGrid.map((row, rowIndex)=> {
+              return row.map((cell, colIndex)=> (selectedCells[0].row===rowIndex && selectedCells[0].col===colIndex)? value:cell)
+            })
           })
-        })
-        return 
+          return
+        }
+        else {
+          setUnsureGrid(prevGrid => {
+            return prevGrid.map((row, rowIndex)=> {
+              return row.map((cell, colIndex)=> {
+                if(selectedCells[0].row===rowIndex && selectedCells[0].col===colIndex){
+                  // Found the right cell
+                  
+                  const newArray=[...cell]
+                  if(cell.includes(value)){
+                    newArray.splice(newArray.indexOf(value), 1) // 2nd parameter means remove one item only                                      
+                    return newArray
+                  } else {
+                    return [...cell, value].sort()
+                  }
+                }
+                return cell
+                
+              })
+            })
+          })
+        }
+
       }
-      else if(selectedCells.length>1){
+      else {
         // Multiple cells selected, enter candidates
 
         selectedCells.forEach(selectedCell => {
