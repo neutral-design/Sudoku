@@ -36,6 +36,7 @@ header {
   grid-template-columns: repeat(9, 1fr);
   /* grid-template-rows: repeat(9, 1fr); */
   margin: 0 auto;
+  position: absolute;
 
 }
 
@@ -179,6 +180,7 @@ header {
 .button-container {
   display: flex;
   flex-direction: column;
+
 }
 
 .button-container > button {
@@ -201,5 +203,8 @@ header {
   /* margin: 1em; */
   background-color: gray;
   min-height: 90vw;
+
+  position: relative;
+  top: 100vw;
 }
 
