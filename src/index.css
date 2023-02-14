@@ -197,6 +197,7 @@ header {
 
 
 .input-container {
+  
   display: flex;
   justify-content: space-between;
   align-items: stretch;
@@ -206,5 +207,6 @@ header {
 
   position: relative;
   top: 100vw;
+  display: none;
 }
 
