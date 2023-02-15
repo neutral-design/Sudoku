@@ -31,12 +31,13 @@ header {
   width: 100%;
 }
 .sudoku-grid {
+  
   width: 100vw;
   height: 100vw;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   /* grid-template-rows: repeat(9, 1fr); */
-  margin: 0 auto;
+  margin: 1em auto;
   position: absolute;
 
 }
