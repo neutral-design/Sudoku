@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react'
 
+{/* <InputGrid 
+setCell={setCell} 
+setInputMode={setInputMode}
+inputMode={unsure}
+newGame={startNewGame}
+restartGame={restartBoard}
+solveBoard={solveBoard}
+/> */}
+
 function InputGrid(props){
     
     function handleChange(event){

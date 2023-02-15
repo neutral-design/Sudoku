@@ -32,7 +32,7 @@ header {
   width: 100%;
 }
 .sudoku-grid {
-  
+  user-select: none;
   width: 100vw;
   height: 100vw;
   display: grid;

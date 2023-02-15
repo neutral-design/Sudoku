@@ -26,16 +26,7 @@ function SudokuGrid(props){
     const [unsure, setUnsure] = useState(false)
     const [newGame, setNewGame] = useState(false)
 
-    
-    useEffect(()=>{
-      // console.log(selectedCells)
-    },[selectedCells])
 
-    useEffect(()=>{
-      if(isSelecting){
-        setSelectedCells([])
-      }
-    },[isSelecting])
 
     useEffect(()=> {
       if(newGame){
@@ -66,30 +57,53 @@ function SudokuGrid(props){
         setSelectedCells([{row: selectedRow, col: selectedCol}])
     }
 
+    // Mouse event handlers
     function handleMouseDown(event){
       const selectedRow = Number(event.currentTarget.dataset.row)
       const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Mouse Down event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      
+      setIsSelecting(true)
+      setSelectedCells([{row: selectedRow, col: selectedCol}])
+      
     }
 
     function handleMouseUp(event){
-      const selectedRow = Number(event.currentTarget.dataset.row)
-      const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Mouse UP event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      
+      setIsSelecting(false)
     }
 
     function handleMouseOver(event){
       const selectedRow = Number(event.currentTarget.dataset.row)
       const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Mouse OVER event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      
+      if(!isSelecting) return
+
+      setSelectedCells(prevSelection => {
+        
+        const newSelection = prevSelection.filter
+        const result = prevSelection.filter(item => item.row===selectedRow && item.col===selectedCol);
+        if(result.length===0){
+          return [...prevSelection,{row: selectedRow, col: selectedCol}]
+        }
+        
+        return prevSelection
+      })
     }
 
     // Touch event handlers
     function handleTouchStart(event){
-      const selectedRow = Number(event.currentTarget.dataset.row)
-      const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Touch START event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      const sudokuEl=document.querySelector(".sudoku-grid")
+      
+      let selectedRow = Math.floor((event.touches[0].clientY-sudokuEl.offsetTop)/screen.width*9)
+      let selectedCol = Math.floor((event.touches[0].clientX-sudokuEl.offsetLeft)/screen.width*9)
+      if(selectedRow>8) selectedRow=8
+      if(selectedCol>8) selectedCol=8
+      if(selectedRow<0) selectedRow=0
+      if(selectedCol<0) selectedCol=0
+      
       setIsSelecting(true)
+
+      setSelectedCells([{row: selectedRow, col: selectedCol}])
     }
 
     function handleTouchMove(event){
@@ -101,7 +115,7 @@ function SudokuGrid(props){
       if(selectedCol>8) selectedCol=8
       if(selectedRow<0) selectedRow=0
       if(selectedCol<0) selectedCol=0
-      console.log(selectedRow, selectedCol)
+      
       
       setSelectedCells(prevSelection => {
         
@@ -116,73 +130,19 @@ function SudokuGrid(props){
     }
 
     function handleTouchEnd(event){
-      const selectedRow = Number(event.currentTarget.dataset.row)
-      const selectedCol = Number(event.currentTarget.dataset.col)
       setIsSelecting(false)
-      // console.log(`Touch END event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      
     }
 
     function handleTouchCancel(event){
-      const selectedRow = Number(event.currentTarget.dataset.row)
-      const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Touch CANCEL event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      setIsSelecting(false)
     }
     
 
-    // Pointer event handlers
-    function handlePointerDown(event){
-      const selectedRow = Number(event.currentTarget.dataset.row)
-      const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Pointer DOWN event in cell row: ${selectedRow}, col: ${selectedCol}`)
-    }
-
-    function handlePointerOver(event){
-      const selectedRow = Number(event.currentTarget.dataset.row)
-      const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Pointer OVER event in cell row: ${selectedRow}, col: ${selectedCol}`)
-    }
-
-    function handlePointerUp(event){
-      const selectedRow = Number(event.currentTarget.dataset.row)
-      const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Pointer UP event in cell row: ${selectedRow}, col: ${selectedCol}`)
-    }
-
-    function handlePointerEnter(event){
-      const selectedRow = Number(event.currentTarget.dataset.row)
-      const selectedCol = Number(event.currentTarget.dataset.col)
-      console.log(`Pointer ENTER event in cell row: ${selectedRow}, col: ${selectedCol}`)
-    }
 
 
     function handleKeypress(event) {
-      // Handle Arrow keys
-      // let rowIndex = selectedCells.length===0 ? 0:selectedCells[0].row
-      // let colIndex = selectedCells.length===0 ? 0:selectedCells[0].col
-      // if(event.key === "ArrowRight") {
-      //   colIndex++
-      // }
-
-      // if(event.key === "ArrowLeft") {
-      //   colIndex--
-      // }
-
-      // if(event.key === "ArrowUp") {
-      //   rowIndex--
-      // }
-
-      // if(event.key === "ArrowDown") {
-      //   rowIndex++
-      // }
-      
-      // colIndex = colIndex%9
-      // colIndex= colIndex < 0 ? colIndex+9: colIndex
-      
-      // rowIndex = rowIndex%9
-      // rowIndex= rowIndex < 0 ? rowIndex+9: rowIndex
-
-      // setSelectedCells([{row: rowIndex, col: colIndex}])
-
+ 
       // Handle number inputs
       
       const number = Number(event.key)
@@ -532,6 +492,7 @@ function SudokuGrid(props){
       }
       )
     }
+
     function restartBoard(){
       setGrid(prevGrid => {
           
@@ -541,6 +502,30 @@ function SudokuGrid(props){
       })
     }
 
+    function startNewGame(){
+      setNewGame(true)
+    }
+
+    function setInputMode(mode){
+      setUnsure(mode)
+    }
+
+    function solveBoard(){
+      if(illegalCells.length>0){
+        console.log("Grid has illegal cells, can't solve")
+        return
+      }
+      // Use JSON.parse / JSON.stringify to create a deep copy of the grid
+      const solvedGrid=JSON.parse(JSON.stringify(grid))
+      // Try solving the grid
+      if(solveSudoku(solvedGrid, 0, 0)){
+        setGrid(solvedGrid)
+
+      }  
+      else {
+        console.log("no solution exists")
+      }
+    }
 
     const sudokuGridElements=grid.map( (row, rowIndex) => {
         
@@ -571,22 +556,18 @@ function SudokuGrid(props){
           <div 
             
             className={classes}
-            onClick={handleChange}
+            
             // Mouse events
-            // onMouseDown={handleMouseDown}
-            // onMouseUp={handleMouseUp}
-            // onMouseOver={handleMouseOver}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseOver={handleMouseOver}
             // Touch events
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
             onTouchCancel={handleTouchCancel}
 
-            // Pointer events
-            // onPointerDown={handlePointerDown}
-            // onPointerOver={handlePointerOver}
-            // onPointerEnter={handlePointerEnter}
-            // onPointerUp={handlePointerUp}
+
 
             data-row={rowIndex} 
             data-col={colIndex} 
@@ -608,41 +589,21 @@ function SudokuGrid(props){
           <div 
             tabIndex="0"
             onKeyDown={handleKeypress}
-            className="sudoku-grid">{sudokuGridElements}
+            className="sudoku-grid">
+              {sudokuGridElements}
           </div>
           
           
           <div className="input-container">
               <div className='button-container'>
                 <button
-                onClick={(event)=>{
-                  restartBoard()
-                }}
+                onClick={restartBoard}
               >Restart</button>
               <button
-                onClick={(event)=> {
-                  setNewGame(true)
-                  
-                }}
+                onClick={startNewGame}
               >New board</button>
               <button
-                onClick={(event)=> {
-                  if(illegalCells.length>0){
-                    console.log("Grid has illegal cells, can't solve")
-                    return
-                  }
-                  // Use JSON.parse / JSON.stringify to create a deep copy of the grid
-                  const solvedGrid=JSON.parse(JSON.stringify(grid))
-                  // Try solving the grid
-                  if(solveSudoku(solvedGrid, 0, 0)){
-                    setGrid(solvedGrid)
-
-                  }  
-                  else {
-                    console.log("no solution exists")
-                  }
-                    
-                }}  
+                onClick={solveBoard}  
                 >Solve</button>
                 <button
                 onClick={(event)=> {
@@ -651,7 +612,14 @@ function SudokuGrid(props){
                 }}  
                 >{unsure? "Input candidates":"Normal input"}</button>
               </div>
-              <InputGrid setCell={setCell}/>
+              <InputGrid 
+                setCell={setCell} 
+                setInputMode={setInputMode}
+                inputMode={unsure}
+                newGame={startNewGame}
+                restartGame={restartBoard}
+                solveBoard={solveBoard}
+              />
               
           </div>
               
