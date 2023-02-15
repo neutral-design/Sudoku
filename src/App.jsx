@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div className="App">
-      <header>Classic Sudoku</header>
+      <header id="header">Classic Sudoku</header>
       
       <div className="sudoku-container">
 

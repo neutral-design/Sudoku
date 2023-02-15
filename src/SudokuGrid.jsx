@@ -93,12 +93,16 @@ function SudokuGrid(props){
     }
 
     function handleTouchMove(event){
-      const selectedRow = Math.floor(event.touches[0].clientY/screen.width*9)
-      const selectedCol = Math.floor(event.touches[0].clientX/screen.width*9)
-
-      // console.log(event.touches[0].clientX)      
-      // console.log(event.touches[0].clientY)      
-      // console.log(`Touch MOVE event in cell row: ${selectedRow}, col: ${selectedCol}`)
+      const sudokuEl=document.querySelector(".sudoku-grid")
+      
+      let selectedRow = Math.floor((event.touches[0].clientY-sudokuEl.offsetTop)/screen.width*9)
+      let selectedCol = Math.floor((event.touches[0].clientX-sudokuEl.offsetLeft)/screen.width*9)
+      if(selectedRow>8) selectedRow=8
+      if(selectedCol>8) selectedCol=8
+      if(selectedRow<0) selectedRow=0
+      if(selectedCol<0) selectedCol=0
+      console.log(selectedRow, selectedCol)
+      
       setSelectedCells(prevSelection => {
         
         const newSelection = prevSelection.filter

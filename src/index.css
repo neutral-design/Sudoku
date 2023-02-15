@@ -38,7 +38,7 @@ header {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   /* grid-template-rows: repeat(9, 1fr); */
-  margin: 1em auto;
+  margin: 0 auto;
   position: absolute;
 
 }
@@ -210,6 +210,6 @@ header {
 
   position: relative;
   top: 100vw;
-  display: none;
+  
 }
 
