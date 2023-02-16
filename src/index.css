@@ -155,11 +155,10 @@ header {
 
 .input-grid {
   /* margin: 1em; */
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
 }
 
-.input-grid-row {
-  display: flex;
-}
 
 .input-grid-item {
   border: 1px solid black;
@@ -174,6 +173,10 @@ header {
   align-items: center;
 
   background-color: #8ECAE6;;
+}
+
+.input-mode-toggle {
+  grid-column: 1 / 4;
 }
 
 .input-grid-item:hover {
@@ -201,9 +204,7 @@ header {
 
 .input-container {
   
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
+  
   /* margin: 1em; */
   background-color: gray;
   /* min-height: 90vw; */

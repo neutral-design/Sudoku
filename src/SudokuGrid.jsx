@@ -49,6 +49,13 @@ function SudokuGrid(props){
       }
     }, [newGame])
     
+    useEffect(()=>{
+      if(selectedCells.length>1){
+        // Multiple cells selected, switch to candidate input mode
+        setUnsure(true)
+      }
+    }, [selectedCells])
+
     function handleChange(event){
       
         const selectedRow = Number(event.currentTarget.dataset.row)
@@ -192,7 +199,9 @@ function SudokuGrid(props){
               return row.map((cell, colIndex)=> {
                 if(selectedCells[0].row===rowIndex && selectedCells[0].col===colIndex){
                   // Found the right cell
-                  
+                  if(value===0){
+                    return []
+                  }
                   const newArray=[...cell]
                   if(cell.includes(value)){
                     newArray.splice(newArray.indexOf(value), 1) // 2nd parameter means remove one item only                                      
@@ -218,6 +227,9 @@ function SudokuGrid(props){
             return row.map((cell, colIndex)=> {
               if(selectedCell.row===rowIndex && selectedCell.col===colIndex){
                 // Found the right cell
+                if(value===0){
+                  return []
+                }
                 
                 const newArray=[...cell]
                 if(cell.includes(value)){
@@ -592,39 +604,21 @@ function SudokuGrid(props){
             className="sudoku-grid">
               {sudokuGridElements}
           </div>
-          
-          
-          <div className="input-container">
-              <div className='button-container'>
-                <button
-                onClick={restartBoard}
-              >Restart</button>
-              <button
-                onClick={startNewGame}
-              >New board</button>
-              <button
-                onClick={solveBoard}  
-                >Solve</button>
-                <button
-                onClick={(event)=> {
-                  setUnsure(prevValue => !prevValue)
-                    
-                }}  
-                >{unsure? "Input candidates":"Normal input"}</button>
-              </div>
-              <InputGrid 
-                setCell={setCell} 
-                setInputMode={setInputMode}
-                inputMode={unsure}
-                newGame={startNewGame}
-                restartGame={restartBoard}
-                solveBoard={solveBoard}
-              />
-              
+
+          <div
+            className="input-container">
+
+            <InputGrid 
+              setCell={setCell} 
+              setInputMode={setInputMode}
+              inputMode={unsure}
+              newGame={startNewGame}
+              restartGame={restartBoard}
+              solveBoard={solveBoard}
+            />
           </div>
               
-              
-              
+        
       </div>
           
     )
