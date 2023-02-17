@@ -605,8 +605,7 @@ function SudokuGrid(props){
               {sudokuGridElements}
           </div>
 
-          <div
-            className="input-container">
+          
 
             <InputGrid 
               setCell={setCell} 
@@ -616,7 +615,7 @@ function SudokuGrid(props){
               restartGame={restartBoard}
               solveBoard={solveBoard}
             />
-          </div>
+          
               
         
       </div>

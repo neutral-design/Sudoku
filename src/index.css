@@ -2,6 +2,8 @@
 html {
   box-sizing: border-box;
   overscroll-behavior: none;
+  margin: 0;
+  padding: 0;
 }
 
 *, *:before, *:after {
@@ -23,14 +25,16 @@ header {
 .App {
   /* width: 100%; */
   display: block;
+  height: 100svh;
 }
 
 .sudoku-container {
-  
-  display: flex;
+  border: 2px solid green;
+  display: grid;
   margin: 0 auto;
+  
   width: 100%;
-  max-height: 100svh;
+  height: 100%;
 }
 .sudoku-grid {
   user-select: none;
@@ -38,9 +42,9 @@ header {
   height: 100vw;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  /* grid-template-rows: repeat(9, 1fr); */
+  
   margin: 0 auto;
-  position: absolute;
+  
 
 }
 
@@ -88,7 +92,7 @@ header {
   width: 100%;
   height: 100%;
   display: grid;
-  /* grid-template-columns: repeat(3, 1fr); */
+  
   grid-template:
   "c1 c2 c3" 33%
   "c4 c5 c6" 33%
@@ -154,19 +158,23 @@ header {
   /* background-color: aqua; */
 }
 
-.input-grid {
+.number-input-grid {
   /* margin: 1em; */
+  grid-area: numbers;
   display: grid;
   grid-template-columns: repeat(3,1fr);
 }
 
 
 .input-grid-item {
+  /* grid-area: numbers; */
   border: 1px solid black;
   /* padding: 1em; */
   cursor: pointer;
-  width: calc(50vw / 3);
-  height: calc(50vw / 3);
+  /* width: calc(50vw / 3);
+  height: calc(50vw / 3); */
+  /* width: 100%;
+  height: 100%; */
   font-size: 1.5rem;
   text-align: center;
   display: flex;
@@ -177,7 +185,8 @@ header {
 }
 
 .input-mode-toggle {
-  grid-column: 1 / 4;
+  grid-area: info;
+  /* grid-column: 1 / 4; */
 }
 
 .input-grid-item:hover {
@@ -187,11 +196,12 @@ header {
 .button-container {
   display: flex;
   flex-direction: column;
+  grid-area: buttons;
 
 }
 
-.button-container > button {
-  /* margin: .5em; */
+.input-button {
+  grid-area: buttons;
   border: 1px solid #023047;
   padding: .5em;
   background-color: #8ECAE6;
@@ -202,16 +212,35 @@ header {
   cursor: pointer;
 }
 
+/* .button-container > button {
+  
+  border: 1px solid #023047;
+  padding: .5em;
+  background-color: #8ECAE6;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  cursor: pointer;
+} */
+
 
 .input-container {
   
-  
-  /* margin: 1em; */
-  background-color: gray;
-  /* min-height: 90vw; */
+  border: 2px solid red;
+  height: 100vw;
 
-  position: relative;
-  top: 100vw;
+  background-color: gray;
+  display: grid;
+  
+  grid-template-columns: repeat(5,20%);
+  grid-template-rows: repeat(5,20%);
+  grid-template-areas: 
+    "buttons buttons info info info"  
+    "buttons buttons numbers numbers numbers"
+    "buttons buttons numbers numbers numbers"
+    "buttons buttons numbers numbers numbers"
+    "buttons buttons numbers numbers numbers";
   
 }
 

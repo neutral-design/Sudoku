@@ -37,40 +37,41 @@ function InputGrid(props){
     })
 
     return (
-        <>
-          <div
+        <div className='input-container'>
+            <div
             className='button-container'>
                 <button
+                    className="input-button"
                     // onClick={}
                 >
                     New board
                 </button>
                 <button
+                className="input-button"
                     // onClick={}
                 >
                     Restart board
                 </button>
                 <button
+                className="input-button"
                     // onClick={}
                 >
                     Toggle input mode
                 </button>
                 <button
+                className="input-button"
                     // onClick={}
                 >
                     I give up, solve it!
                 </button>
-          </div>
-          
-          
-            <div 
-            className='input-grid'
-        
-        >
+            </div>
+            
             <p className="input-mode-toggle">Input mode: {props.inputMode ? "Candidate":"Normal"}</p>
-            {numberElements}
+            {/* <div 
+            className='number-input-grid'> */}
+                {numberElements}
+            {/* </div> */}
         </div>
-        </>
   
     )
 }
