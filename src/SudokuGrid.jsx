@@ -5,6 +5,7 @@ import InputGrid from './InputGrid'
 
 function SudokuGrid(props){
     const numberOfClues = 40
+    
     const [selectedCells, setSelectedCells] = useState([])
     const [isSelecting, setIsSelecting] = useState(false)
     const [illegalCells, setIllegalCells] = useState([])
@@ -27,6 +28,7 @@ function SudokuGrid(props){
     const [newGame, setNewGame] = useState(false)
 
 
+    
 
     useEffect(()=> {
       if(newGame){
@@ -49,11 +51,16 @@ function SudokuGrid(props){
       }
     }, [newGame])
     
+    
+    
+
+
     useEffect(()=>{
       if(selectedCells.length>1){
         // Multiple cells selected, switch to candidate input mode
         setUnsure(true)
       }
+      
     }, [selectedCells])
 
     function handleChange(event){
@@ -220,35 +227,88 @@ function SudokuGrid(props){
       }
       else {
         // Multiple cells selected, enter candidates
-
-        selectedCells.forEach(selectedCell => {
-          setUnsureGrid(prevGrid => {
-          return prevGrid.map((row, rowIndex)=> {
-            return row.map((cell, colIndex)=> {
-              if(selectedCell.row===rowIndex && selectedCell.col===colIndex){
-                // Found the right cell
-                if(value===0){
-                  return []
-                }
-                
-                const newArray=[...cell]
-                if(cell.includes(value)){
-                  newArray.splice(newArray.indexOf(value), 1) // 2nd parameter means remove one item only                                      
-                  return newArray
-                } else {
-                  return [...cell, value].sort()
-                }
-              }
-              return cell
-              
-            })
-          })
-        })
+        const candidatesFull=isCandidateFull(value)
+        console.log(candidatesFull)
         
-        })
+        if(candidatesFull){
+          removeCandidate(value)
+        } else {
+          addCandidate(value)
+          
+        }
         
       }
     }
+
+    function isCandidateFull(value){
+      
+      let isFull=true
+      selectedCells.forEach(selectedCell => {
+        
+        if(!unsureGrid[selectedCell.row][selectedCell.col].includes(value)){
+          isFull=false
+        }
+      })
+      return isFull
+    }
+
+    function addCandidate(value) {
+      
+      selectedCells.forEach(selectedCell => {
+        setUnsureGrid(prevGrid => {
+        return prevGrid.map((row, rowIndex)=> {
+          return row.map((cell, colIndex)=> {
+            if(selectedCell.row===rowIndex && selectedCell.col===colIndex){
+              // Found the right cell
+              if(value===0){
+                return []
+              }
+              if(!cell.includes(value)){
+                return [...cell, value].sort()
+              }
+              
+            }
+            return cell
+            
+          })
+        })
+      })
+      
+      })
+      
+    }
+
+    function removeCandidate(value) {
+      
+      selectedCells.forEach(selectedCell => {
+        setUnsureGrid(prevGrid => {
+        return prevGrid.map((row, rowIndex)=> {
+          return row.map((cell, colIndex)=> {
+            if(selectedCell.row===rowIndex && selectedCell.col===colIndex){
+              // Found the right cell
+              if(value===0){
+                return []
+              }
+              
+              const newArray=[...cell]
+              if( cell.includes(value)){
+                newArray.splice(newArray.indexOf(value), 1) // 2nd parameter means remove one item only                                        
+                return newArray
+                
+              } 
+              
+            }
+            return cell
+            
+          })
+        })
+      })
+      
+      })
+      
+    }
+
+
 
     useEffect(()=>{
       // Check entire grid for illegal cells

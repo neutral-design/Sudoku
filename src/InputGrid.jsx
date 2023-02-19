@@ -82,6 +82,13 @@ function InputGrid(props){
                     I give up, solve it!
                 </button>
             </div>
+            <button
+                className="input-button clear-button"
+                onClick={handleNumberInput}
+                data-value={0} 
+                >
+                    Clear
+            </button>
             
             
             <div 

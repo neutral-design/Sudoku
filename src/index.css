@@ -195,14 +195,8 @@ header {
 }
 
 .input-mode-toggle {
-  /* border: none;
-  border-radius: 5px;
-  margin: 5px; */
-  /* offset-x | offset-y | blur-radius | spread-radius | color */
-  /* box-shadow: 3px 3px 5px 0px rgba(2, 48, 71, 0.8);
-  padding: .5em;
-  background-color: #8ECAE6; */
-  grid-column: 3 / 6;
+
+  grid-column: 1 / 4;
 }
 
 .input-grid-item:hover {
@@ -238,7 +232,9 @@ header {
 }
 
 
-
+.clear-button {
+  grid-column: 4 / 6;
+}
 
 .input-container {
   flex: 1 1 auto;
