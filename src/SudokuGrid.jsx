@@ -597,7 +597,7 @@ function SudokuGrid(props){
 
 
     return (
-      <div>
+      <>
           <div 
             tabIndex="0"
             onKeyDown={handleKeypress}
@@ -618,7 +618,7 @@ function SudokuGrid(props){
           
               
         
-      </div>
+      </>
           
     )
 

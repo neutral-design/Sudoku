@@ -38,6 +38,7 @@ function InputGrid(props){
 
     return (
         <div className='input-container'>
+            <p className="input-mode-toggle">Input mode: {props.inputMode ? "Candidate":"Normal"}</p>
             <div
             className='button-container'>
                 <button
@@ -66,11 +67,11 @@ function InputGrid(props){
                 </button>
             </div>
             
-            <p className="input-mode-toggle">Input mode: {props.inputMode ? "Candidate":"Normal"}</p>
-            {/* <div 
-            className='number-input-grid'> */}
+            
+            <div 
+            className='number-input-grid'>
                 {numberElements}
-            {/* </div> */}
+            </div>
         </div>
   
     )
