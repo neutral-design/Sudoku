@@ -10,7 +10,7 @@ solveBoard={solveBoard}
 /> */}
 
 function InputGrid(props){
-    console.log(props.inputMode)
+    
     function handleNumberInput(event){
         
         const selectedNumber = Number(event.target.dataset.value)
@@ -38,30 +38,46 @@ function InputGrid(props){
 
     return (
         <div className='input-container'>
-            <p className="input-mode-toggle">Input mode: {props.inputMode ? "Candidate":"Normal"}</p>
+                <button
+                    className="input-button input-mode-toggle"
+                    onClick={(event)=>{
+                        props.setInputMode(!props.inputMode)
+                    }}
+                >
+                    Input mode: {props.inputMode ? "Candidate":"Normal"}
+                </button>
+            {/* <p className="input-mode-toggle">Input mode: {props.inputMode ? "Candidate":"Normal"}</p> */}
             <div
             className='button-container'>
                 <button
                     className="input-button"
-                    // onClick={}
+                    onClick={(event)=>{
+                        props.newGame()
+                    }}
                 >
                     New board
                 </button>
                 <button
                 className="input-button"
-                    // onClick={}
+                    onClick={(event)=>{
+                        props.restartGame()
+                    }}
                 >
                     Restart board
                 </button>
-                <button
+                {/* <button
                 className="input-button"
-                    // onClick={}
+                    onClick={()=>{
+                        props.setInputMode(!props.inputMode)
+                    }}
                 >
                     Toggle input mode
-                </button>
+                </button> */}
                 <button
                 className="input-button"
-                    // onClick={}
+                    onClick={()=>{
+                        props.solveBoard()
+                    }}
                 >
                     I give up, solve it!
                 </button>

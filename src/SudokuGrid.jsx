@@ -4,11 +4,11 @@ import InputGrid from './InputGrid'
 
 
 function SudokuGrid(props){
-    
+    const numberOfClues = 40
     const [selectedCells, setSelectedCells] = useState([])
     const [isSelecting, setIsSelecting] = useState(false)
     const [illegalCells, setIllegalCells] = useState([])
-    const [grid, setGrid] = useState(generateBoard(30))
+    const [grid, setGrid] = useState(generateBoard(numberOfClues))
     const [lockedCells, setLockedCells] = useState(generateLockedCells(grid))
     const [unsureGrid, setUnsureGrid] = useState(
       [
@@ -30,7 +30,7 @@ function SudokuGrid(props){
 
     useEffect(()=> {
       if(newGame){
-        const newGrid=generateBoard(30)
+        const newGrid=generateBoard(numberOfClues)
         setGrid(newGrid)
         setLockedCells(generateLockedCells(newGrid))
         setSelectedCells([])

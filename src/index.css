@@ -178,7 +178,11 @@ header {
 .input-grid-item {
   
   border: 1px solid black;
-  
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 3px 3px 5px 0px rgba(2, 48, 71, 0.8);
   cursor: pointer;
   
   font-size: 1.5rem;
@@ -191,8 +195,14 @@ header {
 }
 
 .input-mode-toggle {
-  background-color: aqua;
-  grid-column: 1 / 4;
+  /* border: none;
+  border-radius: 5px;
+  margin: 5px; */
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  /* box-shadow: 3px 3px 5px 0px rgba(2, 48, 71, 0.8);
+  padding: .5em;
+  background-color: #8ECAE6; */
+  grid-column: 3 / 6;
 }
 
 .input-grid-item:hover {
@@ -211,8 +221,13 @@ header {
 }
 
 .input-button {
-  
-  border: 1px solid #023047;
+  flex: 1 1 auto;
+
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 3px 3px 5px 0px rgba(2, 48, 71, 0.8);
   padding: .5em;
   background-color: #8ECAE6;
 
@@ -228,10 +243,10 @@ header {
 .input-container {
   flex: 1 1 auto;
   /* height: 100%; */
-  border: 2px solid red;
+  /* border: 2px solid red;
   
 
-  background-color: gray;
+  background-color: gray; */
   display: grid;
   
   grid-template-columns: repeat(5,20%);
