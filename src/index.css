@@ -28,13 +28,16 @@ header {
   display: flex;
   flex-direction: column;
   height: 100svh;
+  justify-content: center;
 }
 
 .sudoku-container {
+  
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: stretch;
   margin: 0;
   
   width: min(100vh, 100vw) ;
@@ -51,7 +54,7 @@ header {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   
-  margin: 0 auto;
+  
   
 
 }
@@ -62,7 +65,7 @@ header {
 
   aspect-ratio: 1;
   
-  font-size: clamp(1rem, 3vw, 1.5rem); 
+  font-size: clamp(0.5rem, calc(min(100vh, 100vw) / 18), 1.5rem);
   border: 1px dashed black;
   
   display: flex;
@@ -110,7 +113,7 @@ header {
   "c1 c2 c3" 33%
   "c4 c5 c6" 33%
   "c7 c8 c9" 33%;
-  font-size: calc(min(100vh, 100vw) / 36);
+  font-size: clamp(0.5rem, calc(min(100vh, 100vw) / 36), 1.2rem);
   font-weight: 700;
   
 }
@@ -264,7 +267,7 @@ header {
   grid-template-columns: repeat(5,20%);
   grid-template-rows: repeat(4,20%);
 
-  margin: 0 auto;
+  /* margin: 0 auto; */
   
 }
 
