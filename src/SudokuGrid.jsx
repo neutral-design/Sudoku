@@ -4,7 +4,7 @@ import InputGrid from './InputGrid'
 
 
 function SudokuGrid(props){
-    const numberOfClues = 40
+    const numberOfClues = 45
     
     const [selectedCells, setSelectedCells] = useState([])
     const [isSelecting, setIsSelecting] = useState(false)
@@ -108,8 +108,8 @@ function SudokuGrid(props){
     function handleTouchStart(event){
       const sudokuEl=document.querySelector(".sudoku-grid")
       
-      let selectedRow = Math.floor((event.touches[0].clientY-sudokuEl.offsetTop)/screen.width*9)
-      let selectedCol = Math.floor((event.touches[0].clientX-sudokuEl.offsetLeft)/screen.width*9)
+      let selectedRow = Math.floor((event.touches[0].clientY-sudokuEl.offsetTop)/sudokuEl.offsetWidth*9)
+      let selectedCol = Math.floor((event.touches[0].clientX-sudokuEl.offsetLeft)/sudokuEl.offsetWidth*9)
       if(selectedRow>8) selectedRow=8
       if(selectedCol>8) selectedCol=8
       if(selectedRow<0) selectedRow=0
@@ -123,8 +123,8 @@ function SudokuGrid(props){
     function handleTouchMove(event){
       const sudokuEl=document.querySelector(".sudoku-grid")
       
-      let selectedRow = Math.floor((event.touches[0].clientY-sudokuEl.offsetTop)/screen.width*9)
-      let selectedCol = Math.floor((event.touches[0].clientX-sudokuEl.offsetLeft)/screen.width*9)
+      let selectedRow = Math.floor((event.touches[0].clientY-sudokuEl.offsetTop)/sudokuEl.offsetWidth*9)
+      let selectedCol = Math.floor((event.touches[0].clientX-sudokuEl.offsetLeft)/sudokuEl.offsetWidth*9)
       if(selectedRow>8) selectedRow=8
       if(selectedCol>8) selectedCol=8
       if(selectedRow<0) selectedRow=0
