@@ -45,8 +45,9 @@ header {
 }
 .sudoku-grid {
   /* flex: 0 0 auto; */
-  max-width: 500px;
-  max-height: 500px;
+  position: relative;
+  max-width: 504px;
+  max-height: 504px;
   aspect-ratio: 1;
   user-select: none;
   
@@ -60,13 +61,13 @@ header {
 }
 
 /* Sudoku grid borders etc */
-.sudoku-grid > div {
+.sudoku-grid > div.cell {
   margin: 0;
 
   aspect-ratio: 1;
   
   font-size: clamp(0.5rem, calc(min(100vh, 100vw) / 18), 1.5rem);
-  border: 1px dashed black;
+  border: 1px solid darkgrey;
   
   display: flex;
   justify-content: center;
@@ -76,27 +77,27 @@ header {
 
 
 
-.sudoku-grid > div:nth-child(3n) {
+.sudoku-grid > div.cell:nth-child(3n) {
   border-right: 2px solid black;
 }
 
-.sudoku-grid > div:nth-child(9n-8) {
+.sudoku-grid > div.cell:nth-child(9n-8) {
   border-left: 2px solid black;
 }
 
-.sudoku-grid > div:nth-child(-n+9) {
+.sudoku-grid > div.cell:nth-child(-n+9) {
   border-top: 2px solid black;
 }
 
-.sudoku-grid > div:nth-child(27n),
-.sudoku-grid > div:nth-child(27n-1),
-.sudoku-grid > div:nth-child(27n-2),
-.sudoku-grid > div:nth-child(27n-3),
-.sudoku-grid > div:nth-child(27n-4),
-.sudoku-grid > div:nth-child(27n-5),
-.sudoku-grid > div:nth-child(27n-6),
-.sudoku-grid > div:nth-child(27n-7),
-.sudoku-grid > div:nth-child(27n-8) {
+.sudoku-grid > div.cell:nth-child(27n),
+.sudoku-grid > div.cell:nth-child(27n-1),
+.sudoku-grid > div.cell:nth-child(27n-2),
+.sudoku-grid > div.cell:nth-child(27n-3),
+.sudoku-grid > div.cell:nth-child(27n-4),
+.sudoku-grid > div.cell:nth-child(27n-5),
+.sudoku-grid > div.cell:nth-child(27n-6),
+.sudoku-grid > div.cell:nth-child(27n-7),
+.sudoku-grid > div.cell:nth-child(27n-8) {
   border-bottom: 2px solid black;
 }
 
@@ -257,7 +258,7 @@ header {
 
   min-width: 200px;
   min-height: 200px;
-  max-width: 500px;
+  max-width: 504px;
   /* border: 2px solid red;
   
 
@@ -268,6 +269,24 @@ header {
   grid-template-rows: repeat(4,20%);
 
   /* margin: 0 auto; */
+  
+}
+
+.end-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 2rem;
+  
+  opacity: .8;
+
+  background-color: white;
   
 }
 
@@ -290,13 +309,3 @@ header {
   }
 }
 
-/* @media screen and (min-width: 500px) and (orientation: landscape) {
-  .sudoku-grid {
-
-    width: 90%;
-    
-    
-    
-  
-  }
-} */

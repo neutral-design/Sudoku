@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import InputGrid from './InputGrid'
+import GameEndModal from './GameEndModal'
 
 
 
 function SudokuGrid(props){
-    const numberOfClues = 45
     
+    const [numberOfClues, setNumberOfClues] = useState(45)
     const [selectedCells, setSelectedCells] = useState([])
     const [isSelecting, setIsSelecting] = useState(false)
     const [illegalCells, setIllegalCells] = useState([])
@@ -26,6 +27,7 @@ function SudokuGrid(props){
     
     const [unsure, setUnsure] = useState(false)
     const [newGame, setNewGame] = useState(false)
+    const [gameWon, setGameWon] = useState(false)
 
 
     
@@ -52,7 +54,16 @@ function SudokuGrid(props){
     }, [newGame])
     
     
-    
+    useEffect(()=>{
+      // Check entire grid for illegal cells
+      setIllegalCells(getIllegalCells(grid))
+      
+      if(checkForWin()){
+        console.log("Winner!")
+        setGameWon(true)
+      }
+
+    }, [grid])
 
 
     useEffect(()=>{
@@ -309,14 +320,6 @@ function SudokuGrid(props){
     }
 
 
-
-    useEffect(()=>{
-      // Check entire grid for illegal cells
-      setIllegalCells(getIllegalCells(grid))
-      
-    }, [grid])
-
-
   
 
     // Check entire grid for illegal cells
@@ -390,6 +393,19 @@ function SudokuGrid(props){
     
       
       return returnArray;
+    }
+
+    function checkForWin(){
+      // Check if there are any illegal cells in the grid
+      if(getIllegalCells(grid).length > 0) return false
+
+      //check if there are any empty cells in the grid
+      for(let row = 0; row < grid.length; row++){
+        for(let col = 0; col < grid[row].length; col++){
+          if(grid[row][col]===0) return false
+        }
+      }
+      return true
     }
 
     // Check whether it will be legal
@@ -574,7 +590,9 @@ function SudokuGrid(props){
       })
     }
 
-    function startNewGame(){
+    function startNewGame(clues = numberOfClues){
+      setNumberOfClues(clues)
+      setGameWon(false)
       setNewGame(true)
     }
 
@@ -621,7 +639,8 @@ function SudokuGrid(props){
         
         const classes=(selected.length>0 ? "selected ":"") + 
         (illegalCells.includes(rowIndex*9+colIndex) ? "illegal ":"") +
-        (lockedCells[rowIndex][colIndex]?"locked ":"")                       
+        (lockedCells[rowIndex][colIndex]?"locked ":"") +
+        "cell "                    
           
                       
         return (
@@ -658,11 +677,15 @@ function SudokuGrid(props){
 
     return (
       <>
+          
+          
           <div 
             tabIndex="0"
             onKeyDown={handleKeypress}
             className="sudoku-grid">
+              
               {sudokuGridElements}
+              {gameWon && <GameEndModal newGame={startNewGame}/>}
           </div>
 
           
