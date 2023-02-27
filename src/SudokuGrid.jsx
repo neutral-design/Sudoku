@@ -5,6 +5,9 @@ import GameEndModal from './GameEndModal'
 
 
 function SudokuGrid(props){
+    // Used to track time of the last touchStart event in order to track double touch / double taps on mobile
+    
+    const [lastTouchStart, setLastTouchStart] = useState(0)
     
     const [numberOfClues, setNumberOfClues] = useState(45)
     const [selectedCells, setSelectedCells] = useState([])
@@ -74,12 +77,17 @@ function SudokuGrid(props){
       
     }, [selectedCells])
 
-    function handleChange(event){
-      
+    function handleClick(event){
+        // console.log(event.detail)
         const selectedRow = Number(event.currentTarget.dataset.row)
         const selectedCol = Number(event.currentTarget.dataset.col)
         
         setSelectedCells([{row: selectedRow, col: selectedCol}])
+        // console.log(event.detail)
+        if(event.detail > 1 ){
+          // Double click, toggle input mode
+          setUnsure((prevUnsure)=>!prevUnsure)
+        }
     }
 
     // Mouse event handlers
@@ -117,8 +125,13 @@ function SudokuGrid(props){
 
     // Touch event handlers
     function handleTouchStart(event){
+      
+
+
       const sudokuEl=document.querySelector(".sudoku-grid")
       
+          
+
       let selectedRow = Math.floor((event.touches[0].clientY-sudokuEl.offsetTop)/sudokuEl.offsetWidth*9)
       let selectedCol = Math.floor((event.touches[0].clientX-sudokuEl.offsetLeft)/sudokuEl.offsetWidth*9)
       if(selectedRow>8) selectedRow=8
@@ -129,6 +142,17 @@ function SudokuGrid(props){
       setIsSelecting(true)
 
       setSelectedCells([{row: selectedRow, col: selectedCol}])
+
+      let date = new Date();
+      let time = date.getTime();
+      
+      const time_between_taps = 200; // 200ms
+      if (time - lastTouchStart < time_between_taps) {
+        setUnsure(prevUnsure => !prevUnsure)
+        console.log("Double touch, toggle input mode");
+      }
+      setLastTouchStart(time)
+
     }
 
     function handleTouchMove(event){
@@ -155,6 +179,7 @@ function SudokuGrid(props){
     }
 
     function handleTouchEnd(event){
+      
       setIsSelecting(false)
       
     }
@@ -649,6 +674,7 @@ function SudokuGrid(props){
             className={classes}
             
             // Mouse events
+            onClick={handleClick}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseOver={handleMouseOver}
