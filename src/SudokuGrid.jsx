@@ -143,15 +143,15 @@ function SudokuGrid(props){
 
       setSelectedCells([{row: selectedRow, col: selectedCol}])
 
-      let date = new Date();
-      let time = date.getTime();
+      // let date = new Date();
+      // let time = date.getTime();
       
-      const time_between_taps = 200; // 200ms
-      if (time - lastTouchStart < time_between_taps) {
-        setUnsure(prevUnsure => !prevUnsure)
-        console.log("Double touch, toggle input mode");
-      }
-      setLastTouchStart(time)
+      // const time_between_taps = 200; // 200ms
+      // if (time - lastTouchStart < time_between_taps) {
+      //   setUnsure(prevUnsure => !prevUnsure)
+      //   console.log("Double touch, toggle input mode");
+      // }
+      // setLastTouchStart(time)
 
     }
 
