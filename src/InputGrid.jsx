@@ -25,6 +25,7 @@ function InputGrid(props){
     const numberElements = numbers.map(item => {
         return (
             <div 
+                key={item}
                 className="input-grid-item"
                 onClick={handleNumberInput}
                 data-value={item} 

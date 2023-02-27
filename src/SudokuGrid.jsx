@@ -76,12 +76,12 @@ function SudokuGrid(props){
     }, [selectedCells])
 
     function handleClick(event){
-        // console.log(event.detail)
+        
         const selectedRow = Number(event.currentTarget.dataset.row)
         const selectedCol = Number(event.currentTarget.dataset.col)
         
         setSelectedCells([{row: selectedRow, col: selectedCol}])
-        // console.log(event.detail)
+        
         if(event.detail > 1 ){
           // Double click, toggle input mode
           setUnsure((prevUnsure)=>!prevUnsure)
@@ -254,7 +254,7 @@ function SudokuGrid(props){
       else {
         // Multiple cells selected, enter candidates
         const candidatesFull=isCandidateFull(value)
-        console.log(candidatesFull)
+        
         
         if(candidatesFull){
           removeCandidate(value)
@@ -637,9 +637,12 @@ function SudokuGrid(props){
         const cellElements = row.map((cell, colIndex)=> {
           
         
-        const unsureElement = unsureGrid[rowIndex][colIndex].map(candidate => {
+        const unsureElement = unsureGrid[rowIndex][colIndex].map((candidate,index) => {
           return (
-            <div className={`candidate candidate-${candidate}`}>
+            <div 
+              key={index}
+              className={`candidate candidate-${candidate}`}
+              >
               {candidate}
             </div>
           )
@@ -660,7 +663,7 @@ function SudokuGrid(props){
                       
         return (
           <div 
-            
+            key={rowIndex*9+colIndex}
             className={classes}
             
             // Mouse events

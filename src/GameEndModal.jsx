@@ -6,7 +6,7 @@ function GameEndModal(props){
     }
     return (
         <div className="end-modal">
-            <h1>🎆Congrats, You won!🎆</h1>
+            <h1>Congrats, You won!</h1>
             <p>Play again?</p>
             <div>
             <button 
