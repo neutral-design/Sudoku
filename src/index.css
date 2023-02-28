@@ -22,7 +22,11 @@ header {
   background-color: #8ECAE6;
   font-weight: 700;
   flex: 0 1 auto;
+
+  
 }
+
+
 .App {
   
   display: flex;
@@ -44,7 +48,7 @@ header {
   height: calc(max(100vh, 100vw) - 19px);
 }
 .sudoku-grid {
-  /* flex: 0 0 auto; */
+  
   position: relative;
   max-width: 504px;
   max-height: 504px;
@@ -54,9 +58,7 @@ header {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  
-  
-  
+   
 
 }
 
@@ -101,8 +103,8 @@ header {
   border-bottom: 2px solid black;
 }
 
-.sudoku-grid > div:hover {
-  font-weight: 700;
+.cell:hover {
+  transform: scale(1.1);
 }
 
 .candidate-container {
@@ -114,7 +116,8 @@ header {
   "c1 c2 c3" 33%
   "c4 c5 c6" 33%
   "c7 c8 c9" 33%;
-  font-size: clamp(0.5rem, calc(min(100vh, 100vw) / 36), 1.2rem);
+  font-size: clamp(0.5rem, calc(min(100vh, 100vw) / 36), .8rem);
+  /* font-size: clamp(0.5rem, calc(min(100vh, 100vw) / 18), 1.5rem); */
   font-weight: 700;
   
 }
@@ -282,13 +285,36 @@ header {
   height: calc(100% );
   padding: 1rem;
   margin: 0;
-  /* border-radius: 2rem; */
   
-  opacity: .8;
 
-  background-color: white;
+  
+    background-color: rgba(255, 255, 255, .8);
   
 }
+
+p.end-motal-text {
+  color: green;
+}
+
+.new-game-button {
+  /* flex: 1 1 auto; */
+
+  border: none;
+  border-radius: 5px;
+  margin: 5px;
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 3px 3px 5px 0px rgba(2, 48, 71, 0.8);
+  padding: .5em;
+  background-color: #8ECAE6;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  cursor: pointer;
+
+
+}
+
 
 @media (orientation: landscape) {
   .sudoku-container {

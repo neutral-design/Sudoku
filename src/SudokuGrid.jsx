@@ -5,8 +5,9 @@ import GameEndModal from './GameEndModal'
 
 
 function SudokuGrid(props){
-    
-    
+    // const date = new Date()
+    const [gameTimer, setGameTimer] = useState("0:00:00")
+    const [gameStart, setGameStart] = useState(Date.now())
     const [numberOfClues, setNumberOfClues] = useState(45)
     const [selectedCells, setSelectedCells] = useState([])
     const [isSelecting, setIsSelecting] = useState(false)
@@ -29,9 +30,25 @@ function SudokuGrid(props){
     const [unsure, setUnsure] = useState(false)
     const [newGame, setNewGame] = useState(false)
     const [gameWon, setGameWon] = useState(false)
+    const [gameEnded, setGameEnded] = useState(false)
 
 
     
+    useEffect(()=>{
+      setTimeout(() => {
+        
+        
+        const seconds = Math.floor((Date.now()-gameStart)/1000)
+        const minutes = Math.floor(seconds / 60)
+        const hours = Math.floor(minutes / 60)
+        setGameTimer(`${hours}:${String(minutes).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`)
+        
+      }, "1000")
+    },[gameTimer])
+
+    useEffect(()=>{
+      setGameTimer("0:00:00")
+    },[gameStart])
 
     useEffect(()=> {
       if(newGame){
@@ -50,6 +67,8 @@ function SudokuGrid(props){
           [[],[],[],[],[],[],[],[],[]],
           [[],[],[],[],[],[],[],[],[]],
         ])
+        setGameStart(Date.now())
+        
         setNewGame(false)
       }
     }, [newGame])
@@ -698,16 +717,18 @@ function SudokuGrid(props){
       <>
           
           
+          
           <div 
             tabIndex="0"
             onKeyDown={handleKeypress}
             className="sudoku-grid">
               
               {sudokuGridElements}
+
               {gameWon && <GameEndModal newGame={startNewGame}/>}
           </div>
-
-          
+          <p className='timer'
+              >Time: {gameTimer}</p>
 
             <InputGrid 
               setCell={setCell} 

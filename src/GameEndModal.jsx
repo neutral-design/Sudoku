@@ -6,23 +6,23 @@ function GameEndModal(props){
     }
     return (
         <div className="end-modal">
-            <h1>Congrats, You won!</h1>
-            <p>Play again?</p>
+            <h1 className="end-modal-text">Congrats, You won!</h1>
+            <p className="end-motal-text">Play again?</p>
             <div>
             <button 
-                className="input-button" 
+                className="new-game-button" 
                 onClick={handleClick}
                 data-clues={45}>
                     Easy
             </button>
             <button 
-                className="input-button" 
+                className="new-game-button" 
                 onClick={handleClick}
                 data-clues={30}>
                     Medium
             </button>
             <button 
-                className="input-button" 
+                className="new-game-button" 
                 onClick={handleClick}
                 data-clues={20}>
                     Hard
