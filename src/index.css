@@ -11,17 +11,19 @@ html {
 }
 
 body {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
   color: #023047;
   overscroll-behavior: none;
+  
 }
 
 header {
   background-color: #8ECAE6;
   font-weight: 700;
   flex: 0 1 auto;
+  align-items: center;
 
   
 }
@@ -37,10 +39,10 @@ header {
 
 .sudoku-container {
   
-  flex: 1 1 auto;
+  /* flex: 1 1 auto; */
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content:center;
   align-items: stretch;
   margin: 0;
   
@@ -315,6 +317,17 @@ p.end-motal-text {
 
 }
 
+/* .sudoku-grid-container {
+  max-width: 504px;
+} */
+
+.timer {
+  position: absolute;
+  top:0;
+  right:5%;
+}
+
+
 
 @media (orientation: landscape) {
   .sudoku-container {
@@ -332,6 +345,17 @@ p.end-motal-text {
     
     
   
+  }
+  .timer {
+    
+    right:50%;
+  }
+}
+
+@media screen and (min-width: 504px){
+  .timer {
+    
+    left: 300px;
   }
 }
 

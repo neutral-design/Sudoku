@@ -11,7 +11,8 @@ function App() {
   return (
     <div className="App">
       <header id="header">
-      Classic Sudoku
+      <span>Classic Sudoku</span>
+      
       
         
       </header>
